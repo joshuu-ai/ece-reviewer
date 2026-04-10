@@ -1011,7 +1011,7 @@
       },
       {
         "type": "single",
-        "image": "Ex1Ex2AC",
+        "image": "Ex1Ex2AC.png",
         "question": "In BOTH Example 1 and Example 2, what happens to the Auxiliary Carry (AC) flag?",
         "choices": [
           "It is set to 0 in both examples.",
