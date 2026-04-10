@@ -272,8 +272,8 @@
                 </div>
                 
                 <!-- Dynamic Image Container para sa Quiz -->
-                <div id="image-container" class="hidden w-full max-w-xl mx-auto mb-6 border-2 border-slate-700 rounded-lg overflow-hidden bg-slate-950 p-2 shadow-lg">
-                    <img id="question-image" src="" alt="Sanggunian ng Tanong" class="w-full h-auto object-contain max-h-64 rounded">
+                <div id="image-container" class="hidden w-full max-w-4xl mx-auto mb-6 border-2 border-slate-700 rounded-xl overflow-hidden bg-slate-950 p-2 sm:p-4 shadow-lg">
+                    <img id="question-image" src="" alt="Sanggunian ng Tanong" class="w-full h-auto object-contain max-h-96 sm:max-h-[450px] md:max-h-[550px] rounded-lg bg-slate-100">
                 </div>
 
                 <h2 id="question-text" class="text-lg sm:text-xl md:text-2xl font-semibold mb-6 sm:mb-8 leading-snug sm:leading-relaxed min-h-[3rem] sm:min-h-[4rem] text-slate-100">
@@ -426,7 +426,10 @@
                 for (const file of jsonFilesToLoad) {
                     try {
                         loaderText.innerText = `Nilo-load ang ${file}...`;
-                        const response = await fetch(file);
+                        
+                        // CACHE-BUSTING: Nagdadagdag ng timestamp para laging bago ang kunin ng browser
+                        const cacheBuster = new Date().getTime();
+                        const response = await fetch(`${file}?v=${cacheBuster}`);
                         
                         if (response.ok) {
                             const data = await response.json();
@@ -517,8 +520,8 @@
                         // Kung may image, isingit sa ilalim ng text
                         if (factImg.trim() !== "") {
                             contentHTML += `
-                                <div class="w-full flex justify-center mt-2 p-2 bg-slate-900 rounded-lg border border-slate-800">
-                                    <img src="${factImg}" alt="Reference Diagram" class="max-h-48 rounded object-contain">
+                                <div class="w-full flex justify-center mt-4 p-2 sm:p-4 bg-slate-900 rounded-xl border border-slate-800">
+                                    <img src="${factImg}" alt="Reference Diagram" class="w-full h-auto max-h-96 sm:max-h-[450px] md:max-h-[550px] rounded-lg object-contain bg-slate-100">
                                 </div>
                             `;
                         }
