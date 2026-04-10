@@ -1,6 +1,6 @@
 [
   {
-    "topic": "Lecture 2",
+    "topic": "LECTURE 2: ARCHITECTURE OF 8085 MICROPROCESSORS",
     "reviewerFacts": [
       "Step 1: Program counter sends address.",
       "Step 2: Address is placed on the bus.",
