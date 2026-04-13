@@ -269,7 +269,18 @@
                     <span class="text-cyan-600 font-bold text-xs uppercase tracking-widest">Specific Modules</span>
                     <div class="h-px bg-slate-800 flex-grow"></div>
                 </div>
+                
                 <div id="topic-buttons-container" class="grid grid-cols-1 gap-3 sm:gap-4"></div>
+
+                <!-- RECENTLY OPENED SESSION -->
+                <div id="resume-section" class="hidden mt-6 shrink-0">
+                    <div class="flex items-center gap-4 my-2 shrink-0">
+                        <div class="h-px bg-slate-800 flex-grow"></div>
+                        <span class="text-orange-500 font-bold text-xs uppercase tracking-widest text-center">Recently Opened</span>
+                        <div class="h-px bg-slate-800 flex-grow"></div>
+                    </div>
+                    <div id="resume-button-container" class="mt-4"></div>
+                </div>
             </div>
         </div>
 
@@ -460,6 +471,9 @@
         let correctAnswersCount = 0, wrongAnswersCount = 0;
         let TIME_LIMIT = 10, timeLeft = TIME_LIMIT, timerInterval;
 
+        let currentSubjectKey = "";
+        let currentModeId = "";
+
         const topicStyles = [
             { icon: "fa-microchip", color: "from-cyan-500 to-blue-500", text: "text-cyan-400" },
             { icon: "fa-memory", color: "from-emerald-500 to-teal-500", text: "text-emerald-400" },
@@ -544,7 +558,6 @@
             btn.innerHTML = `Log In`;
         }
 
-        // NEW: Forgot Password Function
         async function handleForgotPassword() {
             const email = document.getElementById('auth-email').value.trim().toLowerCase();
             
@@ -564,13 +577,10 @@
         function showAuthMessage(msg, isSuccess = false) {
             const msgBox = document.getElementById('auth-error');
             msgBox.innerText = msg;
-            
-            // Set dynamic styling based on success or error
             msgBox.className = `text-xs font-bold mb-4 text-center py-2 rounded border ${
                 isSuccess ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' 
                           : 'text-rose-500 bg-rose-500/10 border-rose-500/20'
             }`;
-            
             msgBox.classList.remove('hidden');
         }
 
@@ -665,6 +675,7 @@
         }
 
         async function loadSubjectData(subjectKey) {
+            currentSubjectKey = subjectKey;
             const config = subjectsConfig[subjectKey];
             document.getElementById('current-subject-title').innerText = config.name;
             document.getElementById('current-subject-icon').innerHTML = `<i class="fa-solid ${config.icon} text-transparent bg-clip-text bg-gradient-to-br ${config.color}"></i>`;
@@ -683,6 +694,8 @@
                 if (appData.length === 0) throw new Error();
                 renderReviewContent();
                 renderModeButtons();
+                checkResumeSession(); // NEW: Check if there's a saved session
+                
                 document.getElementById('loading-indicator').classList.add('hidden');
                 document.getElementById('main-menu-content').classList.remove('hidden');
             } catch (err) {
@@ -760,7 +773,111 @@
 
         function shuffleArray(array) { let curId = array.length, randId, tmp; while (0 !== curId) { randId = Math.floor(Math.random() * curId); curId -= 1; tmp = array[curId]; array[curId] = array[randId]; array[randId] = tmp; } return array; }
 
+        // ==========================================
+        // 🚨 SESSION RESUME LOGIC 🚨
+        // ==========================================
+        function saveSession() {
+            if (!currentUser || !currentSubjectKey || activeQuestions.length === 0) return;
+            
+            // Do not save if quiz is completed or survival lives depleted
+            if (currentQIndex >= activeQuestions.length || (gameStyle === 'survival' && lives <= 0)) return;
+
+            const sessionData = {
+                currentModeId: currentModeId,
+                gameStyle: gameStyle,
+                currentQIndex: currentQIndex,
+                score: score,
+                streak: streak,
+                maxStreak: maxStreak,
+                lives: lives,
+                correctAnswersCount: correctAnswersCount,
+                wrongAnswersCount: wrongAnswersCount,
+                activeQuestions: activeQuestions,
+                timeLeft: timeLeft,
+                timeLimit: TIME_LIMIT
+            };
+            localStorage.setItem(`resume_${currentUser.uid}_${currentSubjectKey}`, JSON.stringify(sessionData));
+            checkResumeSession();
+        }
+
+        function clearSession() {
+            if (!currentUser || !currentSubjectKey) return;
+            localStorage.removeItem(`resume_${currentUser.uid}_${currentSubjectKey}`);
+            checkResumeSession();
+        }
+
+        function checkResumeSession() {
+            if (!currentUser || !currentSubjectKey) return;
+            const saved = localStorage.getItem(`resume_${currentUser.uid}_${currentSubjectKey}`);
+            const resumeSec = document.getElementById('resume-section');
+            const resumeBtnContainer = document.getElementById('resume-button-container');
+            
+            if (saved) {
+                const data = JSON.parse(saved);
+                resumeSec.classList.remove('hidden');
+                
+                const modeName = data.currentModeId === 'all' ? 'Full System Test' : data.currentModeId;
+                const styleIcon = data.gameStyle === 'survival' ? 'fa-battery-quarter text-rose-400' : 'fa-infinity text-cyan-400';
+                const styleLabel = data.gameStyle === 'survival' ? 'Survival' : 'Classic';
+                
+                resumeBtnContainer.innerHTML = `
+                    <button onclick="resumeGame()" class="w-full bg-slate-900 border-2 border-orange-500/50 hover:border-orange-400 text-white p-4 sm:p-5 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.15)] transition-transform hover:scale-[1.02] text-left flex items-center gap-4">
+                        <div class="bg-orange-500/20 w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 text-orange-400 border border-orange-500/30">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                        <div class="flex-grow overflow-hidden">
+                            <h4 class="font-bold text-sm sm:text-base text-orange-400 uppercase tracking-wider truncate">${modeName}</h4>
+                            <div class="flex items-center gap-3 mt-1 text-xs text-slate-400 font-bold uppercase tracking-widest">
+                                <span class="flex items-center gap-1"><i class="fa-solid ${styleIcon}"></i> ${styleLabel}</span>
+                                <span>|</span>
+                                <span>Q: ${data.currentQIndex + 1}/${data.activeQuestions.length}</span>
+                            </div>
+                        </div>
+                        <div class="shrink-0 text-right hidden sm:block">
+                            <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Score</p>
+                            <p class="text-lg font-black text-emerald-400">${data.score}</p>
+                        </div>
+                    </button>
+                `;
+            } else {
+                resumeSec.classList.add('hidden');
+                resumeBtnContainer.innerHTML = '';
+            }
+        }
+
+        function resumeGame() {
+            if (!currentUser || !currentSubjectKey) return;
+            const saved = localStorage.getItem(`resume_${currentUser.uid}_${currentSubjectKey}`);
+            if (!saved) return;
+
+            const data = JSON.parse(saved);
+            
+            currentModeId = data.currentModeId;
+            gameStyle = data.gameStyle;
+            currentQIndex = data.currentQIndex;
+            score = data.score;
+            streak = data.streak;
+            maxStreak = data.maxStreak;
+            lives = data.lives;
+            correctAnswersCount = data.correctAnswersCount;
+            wrongAnswersCount = data.wrongAnswersCount;
+            activeQuestions = data.activeQuestions;
+            timeLeft = data.timeLeft;
+            TIME_LIMIT = data.timeLimit;
+            
+            clearInterval(timerInterval);
+            document.getElementById('q-total').innerText = activeQuestions.length;
+            
+            setGameStyle(gameStyle);
+            updateHUD();
+            switchScreen('screen-game');
+            loadQuestion(true); // pass true to indicate it's a resume action
+        }
+
         function initiateGame(mode) {
+            currentModeId = mode;
+            clearSession(); // Remove any existing saved session for a fresh start
+
             activeQuestions = [];
             if (mode === 'all') {
                 appData.forEach(t => { if (t.questions) t.questions.forEach(q => activeQuestions.push({...q, topic: t.topic})); });
@@ -778,7 +895,7 @@
             loadQuestion();
         }
 
-        function loadQuestion() {
+        function loadQuestion(isResume = false) {
             const q = activeQuestions[currentQIndex];
             document.getElementById('explanation-box').classList.add('hidden');
             document.getElementById('next-btn').classList.add('hidden');
@@ -809,12 +926,34 @@
                 optsContainer.appendChild(btn);
             });
             
-            TIME_LIMIT = Math.min(Math.max(10, Math.floor((q.question.length + q.shuffledChoices.join("").length) / 15) + 8) + (q.image ? 15 : 0), 60);
-            if (gameStyle === 'survival') { document.getElementById('timer-container').style.display = 'block'; startTimer(); } 
-            else { document.getElementById('timer-container').style.display = 'none'; }
+            if (!isResume) {
+                TIME_LIMIT = Math.min(Math.max(10, Math.floor((q.question.length + q.shuffledChoices.join("").length) / 15) + 8) + (q.image ? 15 : 0), 60);
+                timeLeft = TIME_LIMIT;
+            }
+
+            if (gameStyle === 'survival') { 
+                document.getElementById('timer-container').style.display = 'block'; 
+                startTimer(); 
+            } else { 
+                document.getElementById('timer-container').style.display = 'none'; 
+            }
+
+            saveSession(); // Auto-save when a new question is loaded
         }
 
-        function startTimer() { clearInterval(timerInterval); timeLeft = TIME_LIMIT; updateTimerUI(); timerInterval = setInterval(() => { timeLeft--; updateTimerUI(); if (timeLeft <= 0) { clearInterval(timerInterval); handleTimeout(); } }, 1000); }
+        function startTimer() { 
+            clearInterval(timerInterval); 
+            updateTimerUI(); 
+            timerInterval = setInterval(() => { 
+                timeLeft--; 
+                updateTimerUI(); 
+                if (timeLeft <= 0) { 
+                    clearInterval(timerInterval); 
+                    handleTimeout(); 
+                } 
+            }, 1000); 
+        }
+
         function updateTimerUI() { const pct = (timeLeft/TIME_LIMIT)*100; const bar = document.getElementById('timer-bar'); bar.style.width = `${pct}%`; bar.className = `h-full w-full timer-transition ${pct>50 ? 'bg-cyan-400' : pct>25 ? 'bg-yellow-400' : 'bg-rose-500'}`; }
 
         function handleOptionClick(opt, btn, q) {
@@ -886,6 +1025,7 @@
                 showExplanation(isTimeout ? "TIME'S UP: " + (q.explanation||"") : (q.explanation || "Review the technical documentation."), false);
             }
             updateHUD();
+            saveSession(); // Auto-save updated score/lives after answering
             
             const nextBtn = document.getElementById('next-btn');
             nextBtn.classList.remove('hidden');
@@ -936,13 +1076,22 @@
         }
 
         function quitGame() { document.getElementById('quit-modal').classList.remove('hidden'); }
-        function confirmQuit() { document.getElementById('quit-modal').classList.add('hidden'); clearInterval(timerInterval); switchScreen('screen-mode'); }
+        
+        function confirmQuit() { 
+            saveSession(); // Capture exactly when they quit
+            document.getElementById('quit-modal').classList.add('hidden'); 
+            clearInterval(timerInterval); 
+            switchScreen('screen-mode'); 
+        }
+        
         function cancelQuit() { document.getElementById('quit-modal').classList.add('hidden'); }
 
         // ==========================================
         // 🚨 FIREBASE DATA SAVING 🚨
         // ==========================================
         async function endGame(survived) {
+            clearSession(); // Remove saved session when test naturally ends
+            
             switchScreen('screen-end');
             animateValue("final-score", 0, score, 1000);
             document.getElementById('final-correct').innerText = correctAnswersCount;
