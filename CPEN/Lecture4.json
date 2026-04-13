@@ -1,0 +1,1405 @@
+[
+  {
+    "topic": "LECTURE NO. 4 – ASSEMBLY LANGUAGE OF 8085 MICROPROCESSOR",
+    "reviewerFacts": [
+      "A program is a sequence of instructions which operate with operands or data.",
+      "Writing a program follows five steps: 1. Define the problem, 2. Plan the solution, 3. Code the program, 4. Test the program, 5. Documentation.",
+      "The 8085 microprocessor understands instructions in 0s and 1s, which is known as a machine-language program.",
+      "Programming languages are classified into three types: Machine language, Assembly language, and High-level language.",
+      "Machine language is the 'natural language' of computers, usually written in binary code. It is fast and suitable for prototypes but very difficult and long to write.",
+      "Assembly language replaces machine-level instructions with mnemonics (e.g., ADD, SUB, INC) and is translated using an assembler.",
+      "Assembly language is easier to understand and fast, but it is microprocessor-specific and not portable.",
+      "High-level languages use English words for better readability and are translated into binary codes using compilers or interpreters.",
+      "Compilers translate in multiple steps, execute faster, don't require memory space when running, and are suitable for larger systems.",
+      "Interpreters translate in one step, execute slower, must be in memory while running, and are cheaper/suitable for smaller systems.",
+      "Scientific high-level languages include FORTRAN (FORmula TRANslator) and APL (A Programming Language).",
+      "Business high-level languages include COBOL (Common Business-Oriented Language).",
+      "Education high-level languages include BASIC (Beginners' All-purpose Symbolic Instruction Code) and PASCAL.",
+      "System-Level languages include C, C++, and Object-Oriented Programming (OOP).",
+      "Artificial Intelligence languages include LISP (LISt Processing), ADA, and PROLOG (PROgramming by LOGic).",
+      "A STACK is a group of memory locations in read/write memory used to store registers, operands, and addresses.",
+      "The Stack Pointer (SP) is a 16-bit register holding the starting address, usually initialized at the top (highest address) of memory to avoid conflict.",
+      "Data is stored and retrieved from the top of the stack using the Last-In First-Out (LIFO) principle.",
+      "PUSH instructions store contents of register pairs on the stack; POP instructions retrieve them.",
+      "The SP is decremented as information is stored (PUSH) and incremented as information is retrieved (POP).",
+      "Subroutines are groups of instructions for repetitive tasks. The main program calls them, and control returns to the main program after execution.",
+      "CALL (3-byte instruction) transfers control to the subroutine; RETURN or RET (1-byte instruction) brings execution back.",
+      "A multiple CALL subroutine is called from many locations. The return address is stored on the stack.",
+      "A nested subroutine is a subroutine called by another subroutine. Nesting is only limited by available stack locations.",
+      "A multiple ending subroutine can be terminated at more than one place using conditional returns (e.g., RZ for Return On Zero, RC for Return on Carry) or unconditional returns (RET).",
+      "Time delays are generated using a register or register pair by loading a number and decrementing it until it reaches zero. A conditional jump comes out of the loop.",
+      "Total Time Delay (1 Register) formula: T_D = T_OL + T_L.",
+      "Loop Time (T_L) formula: (1 / Frequency) * (Total T-states of loop) * (Number of iterations).",
+      "For a 1-register delay initialized with 80H (128 iterations) at 5MHz with 15 T-states (DCR + JNZ): T_L = (1 / 5,000,000) * 15 * 128 = 384 µs.",
+      "For a register pair delay initialized with 8000H (32768 iterations) at 5MHz with 24 T-states (DCX + MOV + ORA + JNZ): T_L = (1 / 5,000,000) * 24 * 32768 = 157,286.4 µs.",
+      "For two loops delay, the inner loop iterations multiply with the outer loop iterations to calculate the total delay time. The outer loop adds slight overhead T-states per iteration."
+    ],
+    "questions": [
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is a sequence of instructions which operate with operands or data?",
+        "choices": [
+          "A documentation",
+          "A program",
+          "A machine-language",
+          "A microprocessor"
+        ],
+        "correctAnswer": "A program",
+        "explanation": "A program is a sequence of instructions which operate with operands or data."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When a programmer writes a program for a particular problem, how many steps are followed?",
+        "choices": [
+          "Three steps",
+          "Four steps",
+          "Five steps",
+          "Six steps"
+        ],
+        "correctAnswer": "Five steps",
+        "explanation": "When a programmer writes a program for a particular problem, the following five steps are followed."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When a programmer writes a program for a particular problem, what is the 5th step? (1. Define the problem, 2. Plan the solution, 3. Code the program, 4. Test the program...)",
+        "choices": [
+          "Documentation",
+          "Execute the program",
+          "Debug the code",
+          "Review the operands"
+        ],
+        "correctAnswer": "Documentation",
+        "explanation": "When a programmer writes a program for a particular problem, the following five steps are followed: 1. Define the problem, 2. Plan the solution, 3. Code the program, 4. Test the program, 5. Documentation."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blanks. The 8085 microprocessor is able to understand instructions in ________ and ________",
+        "choices": [
+          "mnemonics and codes",
+          "hexadecimal and octal",
+          "alphabets and numbers",
+          "0s and 1s"
+        ],
+        "correctAnswer": "0s and 1s",
+        "explanation": "The 8085 microprocessor is able to understand instructions in 0s and 1s."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. When a program is written using 0s and 1s, the program is known as a ________",
+        "choices": [
+          "mnemonic operation code",
+          "documentation sequence",
+          "machine-language program",
+          "assembly language"
+        ],
+        "correctAnswer": "machine-language program",
+        "explanation": "When a program is written using 0s and 1s, the program is known as a machine-language program."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. It is very ________ for a programmer to write a program in machine language.",
+        "choices": [
+          "easy",
+          "difficult",
+          "fast",
+          "simple"
+        ],
+        "correctAnswer": "difficult",
+        "explanation": "It is very difficult for a programmer to write a program in machine language."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. The other way of writing a program is using mnemonic operation codes in hexadecimal, octal or binary notations, which is known as ________",
+        "choices": [
+          "machine language",
+          "a sequence of instructions",
+          "assembly language",
+          "documentation"
+        ],
+        "correctAnswer": "assembly language",
+        "explanation": "The other way of writing a program is using mnemonic operation codes in hexadecimal, octal or binary notations, which is known as assembly language."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The programming languages are classified into how many general types?",
+        "choices": [
+          "Two general types",
+          "Three general types",
+          "Four general types",
+          "Five general types"
+        ],
+        "correctAnswer": "Three general types",
+        "explanation": "The programming languages are classified into three general types: 1. Machine language, 2. Assembly language, 3. High-level language."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Machine language is the '________' of computers.",
+        "choices": [
+          "artificial language",
+          "primary language",
+          "natural language",
+          "binary language"
+        ],
+        "correctAnswer": "natural language",
+        "explanation": "Machine language is the 'natural language' of computers."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Machine-language programs are usually written in ________",
+        "choices": [
+          "hexadecimal code",
+          "binary code",
+          "assembly code",
+          "octal code"
+        ],
+        "correctAnswer": "binary code",
+        "explanation": "Machine-language programs are usually written in binary code."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Advantages of ML are suitable for small and simple programs, execution is very fast and requires less computation time, suitable for ________ applications.",
+        "choices": [
+          "web",
+          "mobile",
+          "database",
+          "prototype"
+        ],
+        "correctAnswer": "prototype",
+        "explanation": "Advantages of ML are suitable for small and simple programs, execution is very fast and requires less computation time, suitable for prototype applications."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Disadvantages of ML are time consumable, very difficult to understand a program, each bit entered individually, possibility of errors, and programs tend to be very ________",
+        "choices": [
+          "long",
+          "short",
+          "fast",
+          "complex"
+        ],
+        "correctAnswer": "long",
+        "explanation": "Disadvantages of ML are time consumable, very difficult to understand a program, each bit entered individually, possibility of errors, and programs tend to be very long."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Machine-level instructions are replaced by ________ (i.e., ADD, SUB, INC, RAL, CMP)",
+        "choices": [
+          "binary codes",
+          "variables",
+          "mnemonics",
+          "parameters"
+        ],
+        "correctAnswer": "mnemonics",
+        "explanation": "Machine-level instructions are replaced by mnemonics. (i.e., ADD, SUB, INC, RAL, CMP)"
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is a program written in mnemonics called?",
+        "choices": [
+          "An assembly language program",
+          "A machine-language program",
+          "A high-level language program",
+          "A compiled program"
+        ],
+        "correctAnswer": "An assembly language program",
+        "explanation": "A program written in mnemonics is called an assembly language program."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Assembly-language programs are translated to machine-level programs using a translator program known as ________",
+        "choices": [
+          "compiler",
+          "assembler",
+          "interpreter",
+          "decoder"
+        ],
+        "correctAnswer": "assembler",
+        "explanation": "Assembly-language programs are translated to machine-level programs using a translator program known as assembler."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blanks. Advantage of AL are easy to write, easy to understand, produce faster results, suitable for real-time control and industrial applications, and requires ________ computational time.",
+        "choices": [
+          "more",
+          "infinite",
+          "zero",
+          "less"
+        ],
+        "correctAnswer": "less",
+        "explanation": "Advantage of AL are easy to write, easy to understand, produce faster results, suitable for real-time control and industrial applications, and requires less computational time."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Disadvantage of AL are microprocessor specific, not ________ to other microprocessor, difficult and time consuming compare to HL.",
+        "choices": [
+          "compatible",
+          "portable",
+          "translatable",
+          "adaptable"
+        ],
+        "correctAnswer": "portable",
+        "explanation": "Disadvantage of AL are microprocessor specific, not portable to other microprocessor, difficult and time consuming compare to HL."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. High-level languages can improve the ________ by using English words which make it easier to understand the code and to sort out any faults in the program.",
+        "choices": [
+          "execution",
+          "readability",
+          "translation",
+          "compilation"
+        ],
+        "correctAnswer": "readability",
+        "explanation": "High-level languages can improve the readability by using English words which make it easier to understand the code and to sort out any faults in the program."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is required to translate high-level language into machine codes?",
+        "choices": [
+          "A processor",
+          "An assembler",
+          "A compiler",
+          "A linker"
+        ],
+        "correctAnswer": "A compiler",
+        "explanation": "The programs are very easy to write and fast to execute but a compiler is required to translate high-level language into machine codes."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Translators translate high-level programming language to ________ and make the program understandable for the computer.",
+        "choices": [
+          "assembly languages",
+          "hexadecimals",
+          "binary codes",
+          "mnemonic operation codes"
+        ],
+        "correctAnswer": "binary codes",
+        "explanation": "Translators translate high-level programming language to binary codes and make the program understandable for the computer."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What are the two general types of translators?",
+        "choices": [
+          "compiler and interpreter",
+          "assembler and linker",
+          "encoder and decoder",
+          "hardware and software"
+        ],
+        "correctAnswer": "compiler and interpreter",
+        "explanation": "There are two general types of translators, namely, compiler and interpreter."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Compiled programs execute much ________",
+        "choices": [
+          "slower",
+          "faster",
+          "easier",
+          "harder"
+        ],
+        "correctAnswer": "faster",
+        "explanation": "Compiled programs execute much faster."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Interpreted programs are ________ because translation takes times.",
+        "choices": [
+          "faster",
+          "larger",
+          "slower",
+          "cheaper"
+        ],
+        "correctAnswer": "slower",
+        "explanation": "Interpreted programs are slower because translation takes times."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Compilation is usually a ________ process.",
+        "choices": [
+          "one-step",
+          "two-step",
+          "multi-step",
+          "continuous"
+        ],
+        "correctAnswer": "multi-step",
+        "explanation": "Compilation is usually a multi-step process."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Interpretation translates in ________",
+        "choices": [
+          "one step",
+          "two steps",
+          "multiple steps",
+          "background processes"
+        ],
+        "correctAnswer": "one step",
+        "explanation": "Interpretation translates in one step."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Compilers do not require space in ________ when programs run.",
+        "choices": [
+          "disk",
+          "cache",
+          "memory",
+          "registers"
+        ],
+        "correctAnswer": "memory",
+        "explanation": "Compilers do not require space in memory when programs run."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Interpreters must be in memory while a program is ________",
+        "choices": [
+          "compiling",
+          "executing",
+          "paused",
+          "running"
+        ],
+        "correctAnswer": "running",
+        "explanation": "Interpreters must be in memory while a program is running."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blanks. Compilers are more costly and suitable for a ________ system.",
+        "choices": [
+          "smaller",
+          "cheaper",
+          "larger",
+          "multi-core"
+        ],
+        "correctAnswer": "larger",
+        "explanation": "More costly and suitable for a larger system."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blanks. Interpreters are ________ and suitable for smaller system.",
+        "choices": [
+          "More costly",
+          "Cheaper",
+          "Faster",
+          "Heavier"
+        ],
+        "correctAnswer": "Cheaper",
+        "explanation": "Cheaper and suitable for smaller system."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following is an example of a programming language that uses a compiler?",
+        "choices": [
+          "Python",
+          "PHP",
+          "Ruby",
+          "C++"
+        ],
+        "correctAnswer": "C++",
+        "explanation": "Examples of languages that use a compiler are C, C++, C#, Java, SCALA."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following is an example of a programming language that uses an interpreter?",
+        "choices": [
+          "Java",
+          "SCALA",
+          "C#",
+          "Python"
+        ],
+        "correctAnswer": "Python",
+        "explanation": "Examples of languages that use an interpreter are Python, PHP, Ruby."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following high-level languages are classified under Scientific?",
+        "choices": [
+          "COBOL and BASIC",
+          "LISP and PROLOG",
+          "FORTRAN and APL",
+          "C and C++"
+        ],
+        "correctAnswer": "FORTRAN and APL",
+        "explanation": "Scientific high-level languages include FORTRAN (FORmula TRANslator) and APL (A Programming Language)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. FORTRAN stands for ________",
+        "choices": [
+          "FORmula TRANslator",
+          "FORmal TRANsaction",
+          "FORmat TRANsfer",
+          "FORward TRANslation"
+        ],
+        "correctAnswer": "FORmula TRANslator",
+        "explanation": "FORTRAN (FORmula TRANslator)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. APL stands for ________",
+        "choices": [
+          "Advanced Programming Language",
+          "A Programming Language",
+          "Applied Programming Logic",
+          "Automated Processing Language"
+        ],
+        "correctAnswer": "A Programming Language",
+        "explanation": "APL (A Programming Language)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which high-level language is classified under Business?",
+        "choices": [
+          "PROLOG",
+          "PASCAL",
+          "ADA",
+          "COBOL"
+        ],
+        "correctAnswer": "COBOL",
+        "explanation": "Business: COBOL (Common Business-Oriented Language)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. COBOL stands for ________",
+        "choices": [
+          "Code Binary Object Language",
+          "Common Basic Oriented Logic",
+          "Common Business-Oriented Language",
+          "Computer Based Operating Logic"
+        ],
+        "correctAnswer": "Common Business-Oriented Language",
+        "explanation": "COBOL (Common Business-Oriented Language)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following high-level languages are classified under Education?",
+        "choices": [
+          "FORTRAN and APL",
+          "BASIC and PASCAL",
+          "C and C++",
+          "LISP and ADA"
+        ],
+        "correctAnswer": "BASIC and PASCAL",
+        "explanation": "Education: BASIC (Beginners' All-purpose Symbolic Instruction Code) and PASCAL."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. BASIC stands for ________",
+        "choices": [
+          "Basic All-purpose Symbolic Instruction Code",
+          "Binary Advanced System Instruction Code",
+          "Beginners' Applied Symbolic Instruction Code",
+          "Beginners' All-purpose Symbolic Instruction Code"
+        ],
+        "correctAnswer": "Beginners' All-purpose Symbolic Instruction Code",
+        "explanation": "BASIC (Beginners' All-purpose Symbolic Instruction Code)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following high-level languages are classified under System-Level?",
+        "choices": [
+          "LISP, ADA, PROLOG",
+          "COBOL, BASIC",
+          "C, C++ and Object-Oriented Programming (OOP)",
+          "FORTRAN, APL"
+        ],
+        "correctAnswer": "C, C++ and Object-Oriented Programming (OOP)",
+        "explanation": "System-Level: C, C++ and Object-Oriented Programming (OOP)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following high-level languages are classified under Artificial Intelligence?",
+        "choices": [
+          "LISP, ADA, PROLOG",
+          "BASIC, PASCAL",
+          "COBOL",
+          "FORTRAN, APL"
+        ],
+        "correctAnswer": "LISP, ADA, PROLOG",
+        "explanation": "Artificial Intelligence: LISP (LISt Processing), ADA, PROLOG (PROgramming by LOGic)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. LISP stands for ________",
+        "choices": [
+          "Logic Instruction System Programming",
+          "LISt Processing",
+          "Language Instruction Standard Protocol",
+          "Logical Information System Processing"
+        ],
+        "correctAnswer": "LISt Processing",
+        "explanation": "LISP (LISt Processing)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. PROLOG stands for ________",
+        "choices": [
+          "PROgramming by LOGic",
+          "PROgramming LOGic",
+          "PROcess LOGarithm",
+          "PROcedural LOGic"
+        ],
+        "correctAnswer": "PROgramming by LOGic",
+        "explanation": "PROLOG (PROgramming by LOGic)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. A ________ is a group of memory locations in read/write memory used to store registers, operands, and addresses.",
+        "choices": [
+          "Program Counter",
+          "Register Pair",
+          "Stack",
+          "Memory Pointer"
+        ],
+        "correctAnswer": "Stack",
+        "explanation": "A STACK is a group of memory locations in read/write memory used to store registers, operands, and addresses."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Stack Pointer (SP) is a ________ register that holds the starting address.",
+        "choices": [
+          "8-bit",
+          "16-bit",
+          "32-bit",
+          "64-bit"
+        ],
+        "correctAnswer": "16-bit",
+        "explanation": "Stack Pointer (SP) - A 16-bit register that holds the starting address."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Where is the Stack Location usually initialized to avoid conflict with program data?",
+        "choices": [
+          "At the bottom (lowest address) of memory",
+          "At the middle of memory",
+          "At the top (highest address) of memory",
+          "Inside the microprocessor's cache"
+        ],
+        "correctAnswer": "At the top (highest address) of memory",
+        "explanation": "Stack Location - Usually initialized at the top (highest address) of memory to avoid conflict with program data."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Stack Size is theoretically unlimited, but limited by ________",
+        "choices": [
+          "processor speed",
+          "available memory",
+          "stack pointer constraints",
+          "register count"
+        ],
+        "correctAnswer": "available memory",
+        "explanation": "Stack Size - Theoretically unlimited, but limited by available memory."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Data is always retrieved from the ________ of the stack.",
+        "choices": [
+          "bottom",
+          "middle",
+          "top",
+          "base"
+        ],
+        "correctAnswer": "top",
+        "explanation": "Data is always retrieved from the top of the stack."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "On what principle are data stored in the stack?",
+        "choices": [
+          "First-In First-Out (FIFO) principle",
+          "Last-In Last-Out (LILO) principle",
+          "Random Access principle",
+          "Last-In First-Out (LIFO) principle"
+        ],
+        "correctAnswer": "Last-In First-Out (LIFO) principle",
+        "explanation": "Data are stored in the stack on Last-In First-Out (LIFO) principle."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG44.png",
+        "question": "Fill in the blank. During the execution, a ________ address (8004H) is stored in the stack pointer register.",
+        "choices": [
+          "8-bit",
+          "16-bit",
+          "32-bit",
+          "64-bit"
+        ],
+        "correctAnswer": "16-bit",
+        "explanation": "During the execution, a 16-bit address (8004H) is stored in the stack pointer register."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG44.png",
+        "question": "Which instructions are used to store contents of register pairs on the stack?",
+        "choices": [
+          "POP instructions",
+          "CALL instructions",
+          "PUSH instructions",
+          "RET instructions"
+        ],
+        "correctAnswer": "PUSH instructions",
+        "explanation": "The PUSH instructions are used to store contents of register pairs on the stack."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG45.png",
+        "question": "Which instructions are used to retrieve the information from the stack?",
+        "choices": [
+          "POP instructions",
+          "PUSH instructions",
+          "INX instructions",
+          "MOV instructions"
+        ],
+        "correctAnswer": "POP instructions",
+        "explanation": "The POP instructions are used to retrieve the information from the stack."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG45.png",
+        "question": "Fill in the blank. The address in the stack pointer register always points to the top of the stack, and the address is ________ as information is stored or retrieved, respectively.",
+        "choices": [
+          "incremented",
+          "decremented",
+          "cleared",
+          "multiplied"
+        ],
+        "correctAnswer": "decremented",
+        "explanation": "The address in the stack pointer register always points to the top of the stack, and the address is decremented as information is stored or retrieved, respectively."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG45.png",
+        "question": "The storage and retrieval of the content of registers on the stack should follow what sequence?",
+        "choices": [
+          "First-In-First-Out (FIFO) sequence",
+          "First-In-Last-Out (FILO) sequence",
+          "Random Access sequence",
+          "Last-In-First-Out (LIFO) sequence"
+        ],
+        "correctAnswer": "Last-In-First-Out (LIFO) sequence",
+        "explanation": "The storage and retrieval of the content of registers on the stack should follow the LIFO (Last-In-First Out) sequence."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG45.png",
+        "question": "Fill in the blank. Information in the stack locations may not be ________ until new information is stored in that memory location.",
+        "choices": [
+          "executed",
+          "retrieved",
+          "destroyed",
+          "compiled"
+        ],
+        "correctAnswer": "destroyed",
+        "explanation": "Information in the stack locations may not be destroyed until new information is stored in that memory location."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What are groups of instructions used to perform repetitive tasks?",
+        "choices": [
+          "Main programs",
+          "Stacks",
+          "Subroutines",
+          "Registers"
+        ],
+        "correctAnswer": "Subroutines",
+        "explanation": "Subroutines are groups of instructions used to perform repetitive tasks."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. The main program calls a ________ whenever a specific task is needed.",
+        "choices": [
+          "compiler",
+          "subroutine",
+          "loop",
+          "mnemonic"
+        ],
+        "correctAnswer": "subroutine",
+        "explanation": "The main program calls a subroutine whenever a specific task is needed."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blanks. During a call, program execution transfers from the ________ to the ________",
+        "choices": [
+          "stack to the register",
+          "subroutine to the main program",
+          "main program to the subroutine",
+          "compiler to the interpreter"
+        ],
+        "correctAnswer": "main program to the subroutine",
+        "explanation": "During a call, program execution transfers from the main program to the subroutine."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "After execution, where does control return back to?",
+        "choices": [
+          "the stack pointer",
+          "the subroutine",
+          "the main program",
+          "the next memory location"
+        ],
+        "correctAnswer": "the main program",
+        "explanation": "After execution, control returns back to the main program."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following instructions transfers control to the subroutine?",
+        "choices": [
+          "RETURN (RET)",
+          "PUSH",
+          "POP",
+          "CALL"
+        ],
+        "correctAnswer": "CALL",
+        "explanation": "Two main instructions are used: 1. CALL transfers control to the subroutine."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following instructions brings execution back to the main program?",
+        "choices": [
+          "CALL",
+          "RETURN (RET)",
+          "HALT",
+          "JNZ"
+        ],
+        "correctAnswer": "RETURN (RET)",
+        "explanation": "Two main instructions are used: 2. RETURN (RET) brings execution back to the main program."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. The Call instructions are ________ instructions; the second byte specifies the lower-order byte, and the third byte specifies the higher-order byte of the subroutine address.",
+        "choices": [
+          "1-byte",
+          "2-byte",
+          "3-byte",
+          "4-byte"
+        ],
+        "correctAnswer": "3-byte",
+        "explanation": "The Call instructions are 3-byte instructions; the second byte specifies the lower-order byte, and the third byte specifies the higher-order byte of the subroutine address."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In a Call instruction, which byte specifies the lower-order byte of the subroutine address?",
+        "choices": [
+          "The first byte",
+          "The second byte",
+          "The third byte",
+          "The fourth byte"
+        ],
+        "correctAnswer": "The second byte",
+        "explanation": "The Call instructions are 3-byte instructions; the second byte specifies the lower-order byte, and the third byte specifies the higher-order byte of the subroutine address."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. The Return instructions are ________ instructions.",
+        "choices": [
+          "1-byte",
+          "2-byte",
+          "3-byte",
+          "4-byte"
+        ],
+        "correctAnswer": "1-byte",
+        "explanation": "The Return instructions are 1-byte instructions."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following are the types of subroutines generally used in microprocessors?",
+        "choices": [
+          "Direct subroutines, Indirect subroutines, Relative subroutines",
+          "Single CALL subroutines, Sequential subroutines, Infinite subroutines",
+          "Multiple CALL subroutines, Nested subroutines, Multiple ending subroutines",
+          "Internal subroutines, External subroutines, Global subroutines"
+        ],
+        "correctAnswer": "Multiple CALL subroutines, Nested subroutines, Multiple ending subroutines",
+        "explanation": "The following types of subroutines are generally used in microprocessors: 1. Multiple CALL subroutines, 2. Nested subroutines, 3. Multiple ending subroutines."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG46.png",
+        "question": "What type of subroutine is called from many locations in the main program?",
+        "choices": [
+          "Nested subroutine",
+          "Multiple CALL subroutine",
+          "Multiple ending subroutine",
+          "Infinite subroutine"
+        ],
+        "correctAnswer": "Multiple CALL subroutine",
+        "explanation": "This is a subroutine called from many locations in the main program."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG46.png",
+        "question": "Fill in the blank. When the CALL instruction starts to execute, the subroutine is called from the ________ memory location.",
+        "choices": [
+          "8000",
+          "XX53H",
+          "8004H",
+          "8050"
+        ],
+        "correctAnswer": "8050",
+        "explanation": "When the CALL instruction starts to execute, the subroutine is called from the 8050 memory location."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG46.png",
+        "question": "Fill in the blanks. The return address is stored on the ________ and the stack pointer is decrement by ________ locations to XX53H.",
+        "choices": [
+          "register, one",
+          "stack, two",
+          "accumulator, two",
+          "stack, one"
+        ],
+        "correctAnswer": "stack, two",
+        "explanation": "The return address is stored on the stack and the stack pointer is decrement by two locations to XX53H."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG46.png",
+        "question": "Fill in the blank. The return address is stored on the stack and the stack pointer is decrement by two locations to ________",
+        "choices": [
+          "8050H",
+          "XX53H",
+          "8004H",
+          "FFFFH"
+        ],
+        "correctAnswer": "XX53H",
+        "explanation": "The return address is stored on the stack and the stack pointer is decrement by two locations to XX53H."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG47.png",
+        "question": "Fill in the blank. When the subroutine is called by another subroutine, it is called a ________",
+        "choices": [
+          "multiple subroutine",
+          "nested subroutine",
+          "secondary subroutine",
+          "loop subroutine"
+        ],
+        "correctAnswer": "nested subroutine",
+        "explanation": "When the subroutine is called by another subroutine, it is called a nested subroutine."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG47.png",
+        "question": "When a subroutine calls another subroutine, where are all return addresses stored?",
+        "choices": [
+          "in the accumulator",
+          "on the register pairs",
+          "on the stack",
+          "in the memory pointer"
+        ],
+        "correctAnswer": "on the stack",
+        "explanation": "When a subroutine calls another subroutine, all return addresses are stored on the stack."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG47.png",
+        "question": "Fill in the blank. Only the number of available ________ limits the extent of nesting.",
+        "choices": [
+          "stack locations",
+          "register pairs",
+          "memory addresses",
+          "opcodes"
+        ],
+        "correctAnswer": "stack locations",
+        "explanation": "Only the number of available stack locations limits the extent of nesting."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG48.png",
+        "question": "Fill in the blank. When a subroutine can be terminated at more than one place, it is called a ________",
+        "choices": [
+          "conditional subroutine",
+          "multiple ending subroutine",
+          "nested subroutine",
+          "fragmented subroutine"
+        ],
+        "correctAnswer": "multiple ending subroutine",
+        "explanation": "When a subroutine can be terminated at more than one place, it is called a multiple ending subroutine."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG48.png",
+        "question": "The subroutine has conditional returns such as RET Z (RZ) which stands for",
+        "choices": [
+          "Return On Zenith",
+          "Return On Zero",
+          "Reset On Zero",
+          "Return On Zone"
+        ],
+        "correctAnswer": "Return On Zero",
+        "explanation": "The subroutine has conditional returns such as RET Z (RZ)- Return On Zero and RET C (RC)- Return on Carry."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG48.png",
+        "question": "The subroutine has conditional returns such as RET C (RC) which stands for",
+        "choices": [
+          "Return on Call",
+          "Return on Code",
+          "Reset on Carry",
+          "Return on Carry"
+        ],
+        "correctAnswer": "Return on Carry",
+        "explanation": "The subroutine has conditional returns such as RET Z (RZ)- Return On Zero and RET C (RC)- Return on Carry."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG48.png",
+        "question": "Fill in the blank. This subroutine has an ________ return (RET).",
+        "choices": [
+          "conditional",
+          "unconditional",
+          "unexpected",
+          "immediate"
+        ],
+        "correctAnswer": "unconditional",
+        "explanation": "This subroutine has an unconditional return (RET)."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG48.png",
+        "question": "Fill in the blanks. While the Z flag is set, the subroutine returns from location ________ and if the CY flag is set, it returns from location ________",
+        "choices": [
+          "8050H, 80A0H",
+          "80A0H, 8090H",
+          "8050H, 8090H",
+          "8090H, 8050H"
+        ],
+        "correctAnswer": "8050H, 8090H",
+        "explanation": "While the Z flag is set, the subroutine returns from location 8050H, and if the CY flag is set, it returns from location 8090H."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/FIG48.png",
+        "question": "Fill in the blank. If neither flag is set, the subroutine returns from location ________",
+        "choices": [
+          "8050H",
+          "8090H",
+          "80A0H",
+          "FFFFH"
+        ],
+        "correctAnswer": "80A0H",
+        "explanation": "If neither flag is set, the subroutine returns from location 80A0H."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. Time delay can be generated using a register or a ________",
+        "choices": [
+          "stack pointer",
+          "program counter",
+          "register pair",
+          "memory address"
+        ],
+        "correctAnswer": "register pair",
+        "explanation": "Time delay can be generated using a register or a register pair."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blanks. Initially, a register is loaded with an operand or number and then the number is ________ until it reaches ________",
+        "choices": [
+          "incremented, ten",
+          "decremented, zero",
+          "multiplied, infinity",
+          "shifted, one"
+        ],
+        "correctAnswer": "decremented, zero",
+        "explanation": "Initially, a register is loaded with an operand or number and then the number is decremented until it reaches zero."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What kind of instruction is used in a delay loop to come out from the loop?",
+        "choices": [
+          "An unconditional jump instruction",
+          "A conditional jump instruction",
+          "A sequential call instruction",
+          "A data transfer instruction"
+        ],
+        "correctAnswer": "A conditional jump instruction",
+        "explanation": "A conditional jump instruction is used in a delay loop to come out from the loop."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Fill in the blank. The time delay depends on the ________ which is loaded in the register.",
+        "choices": [
+          "instruction",
+          "address",
+          "number",
+          "mnemonic"
+        ],
+        "correctAnswer": "number",
+        "explanation": "The time delay depends on the number which is loaded in the register."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB41.png",
+        "question": "In Program 4.1, Register B is initialized with 80H. What is the decimal equivalent of this value, which represents the number of times the loop will execute?",
+        "choices": [
+          "80 times",
+          "128 times",
+          "256 times",
+          "32768 times"
+        ],
+        "correctAnswer": "128 times",
+        "explanation": "The hexadecimal value 80H is equal to 128 in decimal (8 * 16 = 128). This is the number of times the loop will run."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB41.png",
+        "question": "Which two instructions make up the LOOP, and what is their combined T-state value for a single iteration?",
+        "choices": [
+          "MVI and DCR (12 T-states)",
+          "DCR and JNZ (15 T-states)",
+          "MVI and JNZ (17 T-states)",
+          "DCR and JNZ (10 T-states)"
+        ],
+        "correctAnswer": "DCR and JNZ (15 T-states)",
+        "explanation": "The loop consists of DCR B (5 T-states) and JNZ LOOP (10 T-states), giving a total of 5+10=15 T-states per iteration."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB41.png",
+        "question": "Based on the formula provided, what is the total number of T-states (T_states) consumed by the loop executing 128 times?",
+        "choices": [
+          "1280 T states",
+          "1920 T states",
+          "2150 T states",
+          "3840 T states"
+        ],
+        "correctAnswer": "1920 T states",
+        "explanation": "T_states = (5+10) * 128 = 1920 T states."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB41.png",
+        "question": "Given a clock frequency of 5MHz, what is the calculated time delay just to execute the LOOP (T_L)?",
+        "choices": [
+          "192 µs",
+          "384 µs",
+          "768 µs",
+          "1920 µs"
+        ],
+        "correctAnswer": "384 µs",
+        "explanation": "T_L = (1 / (5x10^6)) * (5+10) * 128 = 384 µs."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB41.png",
+        "question": "To calculate the total time delay (T_D), we must add the time taken by instructions outside the loop (T_OL). How many T-states does the initial MVI B, 80 instruction require?",
+        "choices": [
+          "4 T-states",
+          "5 T-states",
+          "7 T-states",
+          "10 T-states"
+        ],
+        "correctAnswer": "7 T-states",
+        "explanation": "The instruction MVI B, 80 used to initialize the delay register requires seven (7) clock cycles or T-states."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB41.png",
+        "question": "Combining the time taken by the instruction outside the loop and the execution of the loop itself, what is the final Total Time Delay (T_D)?",
+        "choices": [
+          "384.0 µs",
+          "385.4 µs",
+          "391.0 µs",
+          "400.4 µs"
+        ],
+        "correctAnswer": "385.4 µs",
+        "explanation": "T_D = T_OL + T_L = (1 / (5x10^6)) * 7 + 384 µs = 1.4 µs + 384 µs = 385.4 µs."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB42.png",
+        "question": "In Program 4.2, the DE register pair is initialized with 8000H. What is the decimal equivalent of this value, which represents the number of times the loop will execute?",
+        "choices": [
+          "8000 times",
+          "16384 times",
+          "32768 times",
+          "65536 times"
+        ],
+        "correctAnswer": "32768 times",
+        "explanation": "The hexadecimal value 8000H is equal to 32768 in decimal (8 * 16^3 = 32768). This is the number of times the loop will run."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB42.png",
+        "question": "Which instructions make up the LOOP in Program 4.2, and what is their combined T-state value for a single iteration?",
+        "choices": [
+          "LXI, DCX, MOV (20 T-states)",
+          "MOV, ORA, JNZ (19 T-states)",
+          "DCX, MOV, ORA, JNZ (24 T-states)",
+          "DCX and JNZ (15 T-states)"
+        ],
+        "correctAnswer": "DCX, MOV, ORA, JNZ (24 T-states)",
+        "explanation": "The loop consists of DCX D (5), MOV A,E (5), ORA D (4), and JNZ LOOP (10). Giving a total of 5+5+4+10=24 T-states per iteration."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB42.png",
+        "question": "Based on the formula, what is the total number of T-states (T_states) consumed by the loop executing 32768 times?",
+        "choices": [
+          "327,680 T states",
+          "524,288 T states",
+          "786,432 T states",
+          "1,048,576 T states"
+        ],
+        "correctAnswer": "786,432 T states",
+        "explanation": "T_states = (5+5+4+10) * 32768 = 786,432 T states."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB42.png",
+        "question": "Given a clock frequency of 5MHz, what is the time delay to execute the LOOP (T_L)? (Note: Be mindful of the slide's mathematical error)",
+        "choices": [
+          "157.268 µs (As written on the slide)",
+          "157,286.4 µs (Correct mathematical answer)",
+          "786.432 µs",
+          "Both A and B are true depending on if you follow the slide or exact math."
+        ],
+        "correctAnswer": "157,286.4 µs (Correct mathematical answer)",
+        "explanation": "The slide computes T_L as 157.268 µs. However, the true mathematical calculation is (1 / (5x10^6)) * 24 * 32768 = 157,286.4 µs. (You can use option A if your prof bases the quiz strictly on what's written on the presentation)."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB42.png",
+        "question": "To calculate the total time delay (T_D), we must add the time taken by instructions outside the loop (T_OL). How many T-states does the initial LXI D, 8000 instruction require?",
+        "choices": [
+          "4 T-states",
+          "5 T-states",
+          "7 T-states",
+          "10 T-states"
+        ],
+        "correctAnswer": "10 T-states",
+        "explanation": "The instruction LXI D, 8000H used to initialize the DE register pair requires ten (10) clock cycles or T-states."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB42.png",
+        "question": "Combining the time taken by the instruction outside the loop and the execution of the loop itself, what is the final formula and result for the Total Time Delay (T_D) according to the slide?",
+        "choices": [
+          "T_D = 159.268 µs",
+          "T_D = 157.268 µs",
+          "T_D = 158.668 µs",
+          "T_D = 164.068 µs"
+        ],
+        "correctAnswer": "T_D = T_OL + T_L = (1 / (5x10^6)) * 10 + 157.268 µs = 159.268 µs",
+        "explanation": "The total delay adds the outside loop time (T_OL = (1 / 5MHz) * 10 = 2 µs) to the loop time (T_L). The slide computes this as 159.268 µs."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "In Program 4.3, Registers B and C are initialized with 80H and FFH, respectively. What are their decimal equivalents, which determine how many times the outer and inner loops will run?",
+        "choices": [
+          "B=80 times; C=255 times",
+          "B=128 times; C=255 times",
+          "B=128 times; C=256 times",
+          "B=80 times; C=100 times"
+        ],
+        "correctAnswer": "B=128 times; C=255 times",
+        "explanation": "80H equals 128 in decimal, and FFH equals 255 in decimal. (Note: The slide mistakenly adds 'uS' to these values, but they represent iteration counts, not time)."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "Which instructions make up the inner loop (LOOP-I), and what is their combined T-state value for a single iteration?",
+        "choices": [
+          "MVI C and DCR C (12 T-states)",
+          "DCR C and JNZ LOOP-I (15 T-states)",
+          "DCR B and JNZ LOOP-II (15 T-states)",
+          "MVI C, DCR C, and JNZ LOOP-I (22 T-states)"
+        ],
+        "correctAnswer": "DCR C and JNZ LOOP-I (15 T-states)",
+        "explanation": "The inner loop (LOOP-I) strictly consists of DCR C (5) and JNZ LOOP-I (10), totaling 5+10=15 T-states."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "Aside from the inner loop, the outer loop (LOOP-II) has to execute its own instructions. Which instructions belong to the outer loop but are outside the inner loop?",
+        "choices": [
+          "Initial MVI B, 80 only",
+          "DCR B and JNZ LOOP-II only",
+          "MVI C, FF, DCR B, and JNZ LOOP-II",
+          "MVI B, 80 and MVI C, FF"
+        ],
+        "correctAnswer": "MVI C, FF, DCR B, and JNZ LOOP-II",
+        "explanation": "Every time the outer loop repeats, it must re-initialize Register C (MVI C, FF = 7), wait for the inner loop to finish, and then execute DCR B (5) and JNZ LOOP-II (10)."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "Based on the formula provided in the slide for T_Loop1, what does the expression (5+10) represent?",
+        "choices": [
+          "The T-states of the inner loop instructions (DCR C + JNZ LOOP-I)",
+          "The T-states of the outer loop instructions",
+          "The clock frequency multiplier",
+          "The hexadecimal values converted to decimal"
+        ],
+        "correctAnswer": "The T-states of the inner loop instructions (DCR C + JNZ LOOP-I)",
+        "explanation": "The formula T_Loop1 = (1 / (5x10^6)) * (5+10) * 255 calculates the time delay of the inner loop by multiplying the period, the inner loop T-states (15), and the iterations (255)."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "In the formula for the total loop time (T_Loop), there is a term that reads (7+5+10). Where do these specific T-states come from?",
+        "choices": [
+          "MVI B (7), DCR C (5), and JNZ LOOP-I (10)",
+          "MVI C (7), DCR B (5), and JNZ LOOP-II (10)",
+          "The three JNZ and DCR instructions combined",
+          "The outside loop initialization and the inner loop execution"
+        ],
+        "correctAnswer": "MVI C (7), DCR B (5), and JNZ LOOP-II (10)",
+        "explanation": "These are the T-states of the instructions that are part of the outer loop (LOOP-II) but act outside the inner loop. They are added to the time of T_Loop1 before multiplying by the outer loop's iteration count (128)."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "To calculate the final Total Delay (T_D), the slide uses the formula T_D = T_OL + T_Loop. What is the value of T_OL (T-states outside all loops) used in this specific program?",
+        "choices": [
+          "5",
+          "7",
+          "10",
+          "15"
+        ],
+        "correctAnswer": "7",
+        "explanation": "The only instruction completely outside all loops is the very first initialization MVI B, 80, which takes 7 T-states."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "Let's calculate the exact time delay for the inner loop (T_Loop1). Using the formula T_Loop1 = (1 / (5x10^6)) * (5 + 10) * 255, what is the computed value?",
+        "choices": [
+          "382.5 µs",
+          "765.0 µs",
+          "1530.0 µs",
+          "3825.0 µs"
+        ],
+        "correctAnswer": "765.0 µs",
+        "explanation": "First, find the time for one T-state: 1 / 5,000,000 = 0.2 µs. Then, multiply by the inner loop T-states (15) and iterations (255): 0.2 µs * 15 * 255 = 765 µs."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "In the formula for T_Loop, there is a specific part added to T_Loop1 before multiplying by 128. What is the computed value of the outer loop overhead: (1 / (5x10^6)) * (7+5+10)?",
+        "choices": [
+          "2.2 µs",
+          "3.0 µs",
+          "4.4 µs",
+          "22.0 µs"
+        ],
+        "correctAnswer": "4.4 µs",
+        "explanation": "The outer loop overhead takes 22 T-states (7+5+10=22). Multiplying this by 0.2 µs (one T-state duration) gives 4.4 µs."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "Now let's calculate the combined time for both loops (T_Loop). Using the formula T_Loop = (T_Loop1 + 4.4 µs) * 128, what is the result?",
+        "choices": [
+          "97,920.0 µs",
+          "98,000.4 µs",
+          "98,483.2 µs",
+          "100,255.2 µs"
+        ],
+        "correctAnswer": "98,483.2 µs",
+        "explanation": "Substitute T_Loop1 (765 µs) into the equation: (765 µs + 4.4 µs) * 128 = 769.4 µs * 128 = 98,483.2 µs."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "To find the final total delay, we need the time for the instruction outside all loops (T_OL). What is the computed value of (1 / (5x10^6)) * 7?",
+        "choices": [
+          "0.7 µs",
+          "1.4 µs",
+          "3.5 µs",
+          "7.0 µs"
+        ],
+        "correctAnswer": "1.4 µs",
+        "explanation": "The outside loop instruction takes 7 T-states. 7 * 0.2 µs = 1.4 µs."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "Finally, calculate the total delay of the entire program (T_D). Using the formula T_D = T_OL + T_Loop, what is the final Total Time Delay?",
+        "choices": [
+          "98,483.2 µs",
+          "98,484.6 µs",
+          "98,490.2 µs",
+          "98,500.0 µs"
+        ],
+        "correctAnswer": "98,484.6 µs",
+        "explanation": "T_D = 1.4 µs + 98,483.2 µs = 98,484.6 µs. (You can also convert this to roughly 98.48 ms)."
+      },
+      {
+        "type": "single",
+        "image": "CPEN/Images/PROB43.png",
+        "question": "Look closely at the final formula on the slide: T_D = T_OL + ... = T_Loop. The prof/author made a slight typo in the variable name before the equals sign. What did they mistakenly write?",
+        "choices": [
+          "T_Loop1",
+          "T_Loop2",
+          "T_states",
+          "T_delay"
+        ],
+        "correctAnswer": "T_Loop2",
+        "explanation": "The slide says T_D = T_OL + T_Loop2, but they actually meant T_Loop as shown in the rest of the equation."
+      }
+    ]
+  }
+]
