@@ -107,23 +107,23 @@
              SCREEN 1: DASHBOARD
              ============================== -->
         <div id="screen-dashboard" class="hidden p-6 sm:p-8 md:p-12 flex-grow flex flex-col overflow-y-auto animate-pop relative">
-            <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4 shrink-0">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4 shrink-0 w-full">
                 <div class="flex items-center gap-3">
                     <div class="bg-cyan-900/50 p-3 rounded-full text-cyan-400 border border-cyan-500/30">
                         <i class="fa-solid fa-user"></i>
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Logged in as</p>
-                        <h2 id="dash-student-id" class="text-lg sm:text-xl font-black text-white">Student</h2>
+                        <h2 id="dash-student-id" class="text-lg sm:text-xl font-black text-white truncate max-w-[150px] sm:max-w-xs">Student</h2>
                     </div>
                 </div>
-                <button onclick="handleLogout()" class="text-rose-400 hover:text-rose-300 transition-colors text-sm font-bold flex items-center gap-2 bg-rose-900/20 px-3 py-2 rounded-lg border border-rose-500/20">
+                <button onclick="handleLogout()" class="text-rose-400 hover:text-rose-300 transition-colors text-sm font-bold flex items-center gap-2 bg-rose-900/20 px-3 py-2 rounded-lg border border-rose-500/20 shrink-0">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="hidden sm:inline">Logout</span>
                 </button>
             </div>
 
-            <!-- Stats Overview -->
-            <div class="grid grid-cols-2 gap-4 mb-6 shrink-0">
+            <!-- Stats Overview (Constrained width for PC) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 shrink-0 w-full max-w-2xl mx-auto">
                 <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center gap-4">
                     <i class="fa-solid fa-trophy text-3xl text-yellow-400"></i>
                     <div>
@@ -140,13 +140,13 @@
                 </div>
             </div>
 
-            <!-- Leaderboard Button -->
-            <button onclick="showLeaderboard()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-4 rounded-xl mb-8 shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest flex items-center justify-center gap-3 shrink-0">
+            <!-- Leaderboard Button (Constrained width for PC) -->
+            <button onclick="showLeaderboard()" class="w-full max-w-2xl mx-auto bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-4 rounded-xl mb-8 shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest flex items-center justify-center gap-3 shrink-0">
                 <i class="fa-solid fa-ranking-star text-xl"></i> View Class Leaderboard
             </button>
 
-            <h3 class="text-xl font-black mb-4 text-cyan-400 tracking-wide uppercase shrink-0">Select Subject</h3>
-            <div id="subject-buttons-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl w-full pb-8">
+            <h3 class="text-xl font-black mb-4 text-cyan-400 tracking-wide uppercase shrink-0 text-center sm:text-left w-full max-w-2xl mx-auto">Select Subject</h3>
+            <div id="subject-buttons-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto w-full pb-8">
                 <!-- Populated by JS -->
             </div>
         </div>
@@ -167,7 +167,7 @@
                 <p class="text-slate-400 text-sm font-semibold uppercase tracking-widest mt-2">Top 10 Students of BSECE 3-2</p>
             </div>
 
-            <div id="leaderboard-list" class="bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden flex-grow">
+            <div id="leaderboard-list" class="bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden flex-grow max-w-2xl mx-auto w-full">
                 <div class="flex items-center justify-center h-full p-10" id="leaderboard-loading">
                     <i class="fa-solid fa-circle-notch fa-spin text-3xl text-cyan-500"></i>
                 </div>
@@ -198,11 +198,11 @@
                 <button onclick="switchScreen('screen-dashboard')" class="mt-6 bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition-colors border border-slate-700">Go Back</button>
             </div>
 
-            <div id="main-menu-content" class="hidden animate-pop flex flex-col items-center justify-center h-full pt-8">
+            <div id="main-menu-content" class="hidden animate-pop flex flex-col items-center justify-center h-full pt-8 max-w-2xl mx-auto w-full">
                 <div id="current-subject-icon" class="text-5xl sm:text-6xl mb-4 sm:mb-6 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] shrink-0"></div>
                 <h1 id="current-subject-title" class="text-2xl sm:text-4xl md:text-5xl font-black mb-2 sm:mb-4 text-white shrink-0 tracking-wide uppercase">SUBJECT TITLE</h1>
                 
-                <div class="flex flex-col md:flex-row gap-4 sm:gap-6 justify-center items-center shrink-0 w-full md:w-auto mt-6">
+                <div class="flex flex-col md:flex-row gap-4 sm:gap-6 justify-center items-center shrink-0 w-full mt-6">
                     <button onclick="switchScreen('screen-review')" class="w-full md:w-auto bg-slate-800 hover:bg-slate-700 border-2 border-slate-700 hover:border-cyan-500 text-cyan-50 font-bold text-lg py-3 px-6 rounded-xl transition-all uppercase tracking-wider">
                         <i class="fa-solid fa-database text-cyan-400"></i> Reviewer Logs
                     </button>
@@ -223,7 +223,7 @@
                     <i class="fa-solid fa-xmark text-xl sm:text-2xl"></i>
                 </button>
             </div>
-            <div class="overflow-y-auto p-4 sm:p-6 md:p-8 flex-grow min-h-0 space-y-6" id="review-content-container"></div>
+            <div class="overflow-y-auto p-4 sm:p-6 md:p-8 flex-grow min-h-0 space-y-6 max-w-3xl mx-auto w-full" id="review-content-container"></div>
             <div class="bg-slate-950 p-4 sm:p-6 border-t border-slate-800 shrink-0 text-center">
                 <button onclick="switchScreen('screen-mode')" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-8 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-transform hover:scale-105 uppercase tracking-widest">
                     Run Diagnostics <i class="fa-solid fa-angles-right ml-2"></i>
@@ -235,12 +235,12 @@
              SCREEN 4: MODE SELECTION
              ============================== -->
         <div id="screen-mode" class="hidden flex flex-col h-full animate-pop flex-grow p-4 sm:p-8 md:p-12 overflow-y-auto">
-            <div class="flex justify-between items-start mb-6 shrink-0">
+            <div class="flex justify-between items-start mb-6 shrink-0 w-full max-w-2xl mx-auto">
                 <div>
                     <h2 class="text-2xl sm:text-3xl font-black text-white mb-1 uppercase tracking-wide">Select Diagnostic Mode</h2>
                     <p class="text-sm text-cyan-200/60 font-semibold tracking-wider uppercase">Configure testing parameters</p>
                 </div>
-                <button onclick="switchScreen('screen-main')" class="text-slate-500 hover:text-rose-400 transition-colors p-1">
+                <button onclick="switchScreen('screen-main')" class="text-slate-500 hover:text-rose-400 transition-colors p-1 shrink-0">
                     <i class="fa-solid fa-xmark text-2xl"></i>
                 </button>
             </div>
@@ -280,7 +280,7 @@
                         <span class="text-orange-500 font-bold text-xs uppercase tracking-widest text-center">Recently Opened</span>
                         <div class="h-px bg-slate-800 flex-grow"></div>
                     </div>
-                    <div id="resume-button-container" class="flex flex-col mt-4"></div>
+                    <div id="resume-button-container" class="flex flex-col mt-4 w-full"></div>
                 </div>
             </div>
         </div>
@@ -311,17 +311,17 @@
             <div id="timer-container" class="w-full h-1.5 sm:h-2 bg-slate-800 shrink-0">
                 <div id="timer-bar" class="h-full bg-cyan-400 w-full timer-transition"></div>
             </div>
-            <div id="question-scroll-area" class="p-4 sm:p-6 md:p-10 flex-grow overflow-y-auto min-h-0">
-                <div class="mb-3 text-center sm:text-left flex items-center justify-between">
+            <div id="question-scroll-area" class="p-4 sm:p-6 md:p-10 flex-grow overflow-y-auto min-h-0 w-full">
+                <div class="mb-3 text-center sm:text-left flex items-center justify-between max-w-3xl mx-auto w-full">
                     <span id="topic-display" class="inline-block bg-slate-800 text-cyan-300 border border-slate-700 px-3 py-1 rounded-sm text-[10px] sm:text-xs font-bold tracking-widest uppercase">Module</span>
                     <span id="q-type-badge" class="hidden inline-block bg-blue-900/40 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-sm text-[10px] sm:text-xs font-bold uppercase tracking-widest">Multi-Select</span>
                 </div>
                 <div id="image-container" class="hidden w-full max-w-4xl mx-auto mb-6 border-2 border-slate-700 rounded-xl overflow-hidden bg-slate-950 p-2 sm:p-4 shadow-lg">
                     <img id="question-image" src="" class="w-full h-auto object-contain max-h-96 sm:max-h-[450px] rounded-lg bg-slate-100">
                 </div>
-                <h2 id="question-text" class="text-lg sm:text-xl md:text-2xl font-semibold mb-6 sm:mb-8 text-slate-100">Loading Sequence...</h2>
-                <div id="options-container" class="grid grid-cols-1 gap-3 mb-6"></div>
-                <div id="explanation-box" class="hidden bg-slate-800/80 border-l-4 border-cyan-500 rounded-r-xl p-4 mb-6 text-slate-200">
+                <h2 id="question-text" class="text-lg sm:text-xl md:text-2xl font-semibold mb-6 sm:mb-8 text-slate-100 max-w-3xl mx-auto w-full text-center sm:text-left">Loading Sequence...</h2>
+                <div id="options-container" class="grid grid-cols-1 gap-3 mb-6 max-w-3xl mx-auto w-full"></div>
+                <div id="explanation-box" class="hidden max-w-3xl mx-auto w-full bg-slate-800/80 border-l-4 border-cyan-500 rounded-r-xl p-4 mb-6 text-slate-200">
                     <div class="flex items-start gap-3">
                         <i class="fa-solid fa-terminal text-cyan-400 mt-1"></i>
                         <div>
@@ -330,7 +330,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-right pb-8 flex justify-end gap-3">
+                <div class="text-right pb-8 flex justify-end gap-3 max-w-3xl mx-auto w-full">
                     <button id="submit-multi-btn" onclick="submitMultiAnswer()" class="hidden bg-blue-600 text-white font-bold py-3 px-6 rounded-xl uppercase tracking-widest">Execute <i class="fa-solid fa-gears ml-2"></i></button>
                     <button id="next-btn" onclick="nextQuestion()" class="hidden bg-cyan-600 text-white font-bold py-3 px-6 rounded-xl uppercase tracking-widest">Proceed <i class="fa-solid fa-forward-step ml-2"></i></button>
                 </div>
@@ -364,9 +364,9 @@
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row justify-center gap-3">
-                <button onclick="switchScreen('screen-dashboard')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest transition-colors">Dashboard</button>
-                <button onclick="switchScreen('screen-mode')" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest transition-colors shadow-[0_0_15px_rgba(6,182,212,0.4)]">Run Again</button>
+            <div class="flex flex-col sm:flex-row justify-center gap-3 w-full max-w-md mx-auto">
+                <button onclick="switchScreen('screen-dashboard')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest transition-colors w-full sm:w-auto">Dashboard</button>
+                <button onclick="switchScreen('screen-mode')" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest transition-colors shadow-[0_0_15px_rgba(6,182,212,0.4)] w-full sm:w-auto">Run Again</button>
             </div>
         </div>
 
@@ -879,36 +879,36 @@
                     const styleLabel = data.gameStyle === 'survival' ? 'Survival' : 'Classic';
                     
                     const wrapper = document.createElement('div');
-                    wrapper.className = "flex items-center gap-2 mb-3";
+                    wrapper.className = "flex items-stretch gap-2 sm:gap-3 mb-3 w-full";
                     
                     // Resume Button (Takes most of the space)
                     const resumeBtn = document.createElement('button');
                     resumeBtn.onclick = () => resumeGame(modeId);
-                    resumeBtn.className = `flex-grow bg-slate-900 border-2 border-orange-500/50 hover:border-orange-400 text-white p-4 sm:p-5 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.15)] transition-transform hover:scale-[1.02] text-left flex items-center gap-4`;
+                    resumeBtn.className = `flex-grow bg-slate-900 border-2 border-orange-500/50 hover:border-orange-400 text-white p-3 sm:p-5 rounded-xl sm:rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.15)] transition-transform hover:scale-[1.02] text-left flex items-center gap-3 sm:gap-4 overflow-hidden min-w-0`;
                     resumeBtn.innerHTML = `
-                        <div class="bg-orange-500/20 w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 text-orange-400 border border-orange-500/30">
+                        <div class="bg-orange-500/20 w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center text-lg sm:text-xl shrink-0 text-orange-400 border border-orange-500/30">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                         </div>
-                        <div class="flex-grow overflow-hidden">
-                            <h4 class="font-bold text-sm sm:text-base text-orange-400 uppercase tracking-wider truncate">${modeName}</h4>
-                            <div class="flex items-center gap-3 mt-1 text-xs text-slate-400 font-bold uppercase tracking-widest">
-                                <span class="flex items-center gap-1"><i class="fa-solid ${styleIcon}"></i> ${styleLabel}</span>
-                                <span>|</span>
-                                <span>Q: ${data.currentQIndex + 1}/${data.activeQuestions.length}</span>
+                        <div class="flex-grow min-w-0">
+                            <h4 class="font-bold text-xs sm:text-base text-orange-400 uppercase tracking-wider truncate block">${modeName}</h4>
+                            <div class="flex items-center gap-2 sm:gap-3 mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-widest truncate">
+                                <span class="flex items-center gap-1 shrink-0"><i class="fa-solid ${styleIcon}"></i> ${styleLabel}</span>
+                                <span class="shrink-0">|</span>
+                                <span class="truncate">Q: ${data.currentQIndex + 1}/${data.activeQuestions.length}</span>
                             </div>
                         </div>
-                        <div class="shrink-0 text-right hidden sm:block">
-                            <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Score</p>
-                            <p class="text-lg font-black text-emerald-400">${data.score}</p>
+                        <div class="shrink-0 text-right hidden sm:block ml-2">
+                            <p class="text-[10px] sm:text-xs text-slate-500 uppercase tracking-widest font-bold">Score</p>
+                            <p class="text-base sm:text-lg font-black text-emerald-400">${data.score}</p>
                         </div>
                     `;
                     
                     // Restart Button (Square button on the right)
                     const restartBtn = document.createElement('button');
                     restartBtn.onclick = () => promptRestartGame(modeId);
-                    restartBtn.className = `shrink-0 bg-slate-900 border-2 border-slate-700 hover:border-rose-500 text-rose-500 hover:text-white hover:bg-rose-600 p-4 sm:p-5 rounded-2xl transition-all flex items-center justify-center w-[72px] h-full shadow-md`;
+                    restartBtn.className = `shrink-0 bg-slate-900 border-2 border-slate-700 hover:border-rose-500 text-rose-500 hover:text-white hover:bg-rose-600 rounded-xl sm:rounded-2xl transition-all flex items-center justify-center w-14 sm:w-16 shadow-md`;
                     restartBtn.title = "Restart Topic";
-                    restartBtn.innerHTML = `<i class="fa-solid fa-rotate-right text-xl"></i>`;
+                    restartBtn.innerHTML = `<i class="fa-solid fa-rotate-right text-lg sm:text-xl"></i>`;
 
                     wrapper.appendChild(resumeBtn);
                     wrapper.appendChild(restartBtn);
@@ -1129,13 +1129,13 @@
             nextBtn.classList.remove('hidden');
             if (gameStyle === 'survival' && lives <= 0) {
                 nextBtn.innerHTML = `System Failure <i class="fa-solid fa-triangle-exclamation ml-2"></i>`;
-                nextBtn.className = "bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest";
+                nextBtn.className = "bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest max-w-3xl mx-auto w-full";
             } else if (currentQIndex >= activeQuestions.length - 1) {
                 nextBtn.innerHTML = `Complete Test <i class="fa-solid fa-flag-checkered ml-2"></i>`;
-                nextBtn.className = "bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest";
+                nextBtn.className = "bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest max-w-3xl mx-auto w-full sm:w-auto";
             } else {
                 nextBtn.innerHTML = `Next Sequence <i class="fa-solid fa-angles-right ml-2"></i>`;
-                nextBtn.className = "bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest";
+                nextBtn.className = "bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-8 rounded-xl uppercase tracking-widest max-w-3xl mx-auto w-full sm:w-auto";
             }
         }
 
@@ -1144,7 +1144,7 @@
         function showExplanation(text, isCorrect) {
             const expBox = document.getElementById('explanation-box');
             document.getElementById('explanation-text').innerHTML = text;
-            expBox.className = `bg-slate-800/80 border-l-4 rounded-r-xl p-4 mb-6 text-slate-200 shadow-inner animate-pop ${isCorrect ? 'border-emerald-500' : 'border-rose-500'}`;
+            expBox.className = `max-w-3xl mx-auto w-full bg-slate-800/80 border-l-4 rounded-r-xl p-4 mb-6 text-slate-200 shadow-inner animate-pop ${isCorrect ? 'border-emerald-500' : 'border-rose-500'}`;
             expBox.querySelector('i').className = `fa-solid fa-terminal mt-1 text-base sm:text-lg ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}`;
             expBox.querySelector('span').className = `font-bold block mb-1 text-sm sm:text-base tracking-wider uppercase ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}`;
             expBox.classList.remove('hidden');
