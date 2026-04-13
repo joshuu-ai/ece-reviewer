@@ -280,7 +280,7 @@
                         <span class="text-orange-500 font-bold text-xs uppercase tracking-widest text-center">Recently Opened</span>
                         <div class="h-px bg-slate-800 flex-grow"></div>
                     </div>
-                    <div id="resume-button-container" class="flex flex-col gap-3 mt-4"></div>
+                    <div id="resume-button-container" class="flex flex-col mt-4"></div>
                 </div>
             </div>
         </div>
@@ -383,6 +383,20 @@
                 </div>
             </div>
         </div>
+
+        <!-- NEW: RESTART MODAL -->
+        <div id="restart-modal" class="hidden fixed inset-0 bg-slate-950/80 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
+            <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl shadow-[0_0_30px_rgba(225,29,72,0.2)] max-w-sm w-full text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-orange-500"></div>
+                <div class="text-5xl text-orange-500 mb-4"><i class="fa-solid fa-rotate-right"></i></div>
+                <h3 class="text-xl font-black text-white mb-2 uppercase tracking-widest">Restart Topic?</h3>
+                <p class="text-sm text-slate-400 mb-6">Your saved progress for this topic will be deleted and you will start from the beginning.</p>
+                <div class="flex gap-3">
+                    <button onclick="cancelRestart()" class="flex-1 bg-slate-800 text-white font-bold py-3 rounded-xl uppercase tracking-wider">Cancel</button>
+                    <button onclick="executeRestart()" class="flex-1 bg-orange-600 text-white font-bold py-3 rounded-xl uppercase tracking-wider">Restart</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Application Logic -->
@@ -473,6 +487,7 @@
 
         let currentSubjectKey = "";
         let currentModeId = "";
+        let modeToRestart = null; // Used for tracking restart modal target
 
         const topicStyles = [
             { icon: "fa-microchip", color: "from-cyan-500 to-blue-500", text: "text-cyan-400" },
@@ -489,6 +504,7 @@
                 const displayName = user.email.split('@')[0];
                 document.getElementById('dash-student-id').innerText = displayName;
                 fetchUserData(user.uid);
+                syncSessionsFromCloud(); // Pull existing sessions from Firebase
                 switchScreen('screen-dashboard');
                 renderSubjectButtons();
             } else {
@@ -769,18 +785,39 @@
                 cBtn.className = "flex-1 py-2 px-2 rounded-lg font-bold text-xs sm:text-sm bg-cyan-600 text-white border border-cyan-500 uppercase tracking-wider";
                 sBtn.className = "flex-1 py-2 px-2 rounded-lg font-bold text-xs sm:text-sm bg-slate-900 text-slate-500 hover:text-white border border-slate-800 uppercase tracking-wider";
             }
-            checkResumeSession(); // Re-render the resume list based on the selected game style tab
+            checkResumeSession(); 
         }
 
         function shuffleArray(array) { let curId = array.length, randId, tmp; while (0 !== curId) { randId = Math.floor(Math.random() * curId); curId -= 1; tmp = array[curId]; array[curId] = array[randId]; array[randId] = tmp; } return array; }
 
         // ==========================================
-        // 🚨 SESSION RESUME LOGIC (MULTI-TOPIC) 🚨
+        // 🚨 CLOUD SESSION RESUME LOGIC (CROSS-DEVICE) 🚨
         // ==========================================
+        async function syncSessionsFromCloud() {
+            if (!currentUser) return;
+            try {
+                // Clear old local cache for sessions
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith(`bsece_resume_${currentUser.uid}`)) keysToRemove.push(key);
+                }
+                keysToRemove.forEach(k => localStorage.removeItem(k));
+
+                // Download updated sessions from Firestore
+                const snapshot = await db.collection('users').doc(currentUser.uid).collection('sessions').get();
+                snapshot.forEach(doc => {
+                    localStorage.setItem(doc.id, JSON.stringify(doc.data()));
+                });
+                checkResumeSession(); // Refresh UI if they are on the screen
+            } catch (e) {
+                console.error("Error syncing sessions from cloud: ", e);
+            }
+        }
+
         function saveSession() {
             if (!currentUser || !currentSubjectKey || !currentModeId || activeQuestions.length === 0) return;
             
-            // Do not save if quiz is completed or survival lives depleted
             if (currentQIndex >= activeQuestions.length || (gameStyle === 'survival' && lives <= 0)) return;
 
             const sessionData = {
@@ -798,14 +835,25 @@
                 timeLimit: TIME_LIMIT
             };
             
-            // Format: bsece_resume_UID_SUBJECT_STYLE_MODE
-            localStorage.setItem(`bsece_resume_${currentUser.uid}_${currentSubjectKey}_${gameStyle}_${currentModeId}`, JSON.stringify(sessionData));
+            const localKey = `bsece_resume_${currentUser.uid}_${currentSubjectKey}_${gameStyle}_${currentModeId}`;
+            localStorage.setItem(localKey, JSON.stringify(sessionData));
+            
+            // Upload to Firestore for cross-device support
+            db.collection('users').doc(currentUser.uid).collection('sessions').doc(localKey)
+              .set(sessionData).catch(e => console.log(e));
+              
             checkResumeSession();
         }
 
         function clearSession(modeId) {
             if (!currentUser || !currentSubjectKey || !modeId) return;
-            localStorage.removeItem(`bsece_resume_${currentUser.uid}_${currentSubjectKey}_${gameStyle}_${modeId}`);
+            const localKey = `bsece_resume_${currentUser.uid}_${currentSubjectKey}_${gameStyle}_${modeId}`;
+            localStorage.removeItem(localKey);
+            
+            // Delete from Firestore
+            db.collection('users').doc(currentUser.uid).collection('sessions').doc(localKey)
+              .delete().catch(e => console.log(e));
+              
             checkResumeSession();
         }
 
@@ -818,7 +866,6 @@
             
             let hasSavedSessions = false;
             
-            // Get all possible mode IDs (the "all" button, and all individual topics)
             const possibleModes = ['all', ...appData.map(t => t.topic)];
 
             possibleModes.forEach(modeId => {
@@ -831,10 +878,14 @@
                     const styleIcon = data.gameStyle === 'survival' ? 'fa-battery-quarter text-rose-400' : 'fa-infinity text-cyan-400';
                     const styleLabel = data.gameStyle === 'survival' ? 'Survival' : 'Classic';
                     
-                    const btn = document.createElement('button');
-                    btn.onclick = () => resumeGame(modeId);
-                    btn.className = `w-full bg-slate-900 border-2 border-orange-500/50 hover:border-orange-400 text-white p-4 sm:p-5 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.15)] transition-transform hover:scale-[1.02] text-left flex items-center gap-4 mb-3`;
-                    btn.innerHTML = `
+                    const wrapper = document.createElement('div');
+                    wrapper.className = "flex items-center gap-2 mb-3";
+                    
+                    // Resume Button (Takes most of the space)
+                    const resumeBtn = document.createElement('button');
+                    resumeBtn.onclick = () => resumeGame(modeId);
+                    resumeBtn.className = `flex-grow bg-slate-900 border-2 border-orange-500/50 hover:border-orange-400 text-white p-4 sm:p-5 rounded-2xl shadow-[0_0_15px_rgba(249,115,22,0.15)] transition-transform hover:scale-[1.02] text-left flex items-center gap-4`;
+                    resumeBtn.innerHTML = `
                         <div class="bg-orange-500/20 w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 text-orange-400 border border-orange-500/30">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                         </div>
@@ -851,7 +902,17 @@
                             <p class="text-lg font-black text-emerald-400">${data.score}</p>
                         </div>
                     `;
-                    resumeBtnContainer.appendChild(btn);
+                    
+                    // Restart Button (Square button on the right)
+                    const restartBtn = document.createElement('button');
+                    restartBtn.onclick = () => promptRestartGame(modeId);
+                    restartBtn.className = `shrink-0 bg-slate-900 border-2 border-slate-700 hover:border-rose-500 text-rose-500 hover:text-white hover:bg-rose-600 p-4 sm:p-5 rounded-2xl transition-all flex items-center justify-center w-[72px] h-full shadow-md`;
+                    restartBtn.title = "Restart Topic";
+                    restartBtn.innerHTML = `<i class="fa-solid fa-rotate-right text-xl"></i>`;
+
+                    wrapper.appendChild(resumeBtn);
+                    wrapper.appendChild(restartBtn);
+                    resumeBtnContainer.appendChild(wrapper);
                 }
             });
 
@@ -889,6 +950,26 @@
             updateHUD();
             switchScreen('screen-game');
             loadQuestion(true); 
+        }
+        
+        // Modal logic for Restarting Game
+        function promptRestartGame(modeId) {
+            modeToRestart = modeId;
+            document.getElementById('restart-modal').classList.remove('hidden');
+        }
+        
+        function cancelRestart() {
+            modeToRestart = null;
+            document.getElementById('restart-modal').classList.add('hidden');
+        }
+        
+        function executeRestart() {
+            if(modeToRestart) {
+                clearSession(modeToRestart);
+                document.getElementById('restart-modal').classList.add('hidden');
+                initiateGame(modeToRestart);
+                modeToRestart = null;
+            }
         }
 
         function initiateGame(mode) {
@@ -1042,7 +1123,7 @@
                 showExplanation(isTimeout ? "TIME'S UP: " + (q.explanation||"") : (q.explanation || "Review the technical documentation."), false);
             }
             updateHUD();
-            saveSession(); // Auto-save updated score/lives after answering
+            saveSession(); 
             
             const nextBtn = document.getElementById('next-btn');
             nextBtn.classList.remove('hidden');
@@ -1095,7 +1176,7 @@
         function quitGame() { document.getElementById('quit-modal').classList.remove('hidden'); }
         
         function confirmQuit() { 
-            saveSession(); // Capture exactly when they quit
+            saveSession(); 
             document.getElementById('quit-modal').classList.add('hidden'); 
             clearInterval(timerInterval); 
             switchScreen('screen-mode'); 
@@ -1107,7 +1188,7 @@
         // 🚨 FIREBASE DATA SAVING 🚨
         // ==========================================
         async function endGame(survived) {
-            clearSession(currentModeId); // Clean the specific topic's save slot when finished
+            clearSession(currentModeId); 
             
             switchScreen('screen-end');
             animateValue("final-score", 0, score, 1000);
