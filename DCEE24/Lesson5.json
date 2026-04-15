@@ -1,0 +1,868 @@
+[
+  {
+    "topic": "Lecture 5: Continuous-Time LTI Systems",
+    "reviewerFacts": [
+      "Before any control system is analyzed and designed, a math model is required. Modeling allows predicting system behavior without building the system.",
+      "Common modeling principles include Newton's laws for mechanical systems, Kirchhoff's laws for electrical circuits, and Conservation laws for energy and motion.",
+      "Differential Equations (DE) are converted to Transfer Functions (TF) to simplify analysis.",
+      "To convert a DE to a TF: 1. Apply Laplace Transform to each term, 2. Assume Zero Initial Conditions, 3. Solve for TF ($G(s) = \\frac{Y(s)}{U(s)}$).",
+      "Linearity is a property of a system where the relationship between inputs and outputs satisfies the principles of Superposition and Homogeneity.",
+      "Superposition means that the response to a sum of inputs is the sum of the individual responses ($y_1(t) + y_2(t)$).",
+      "Homogeneity (Scaling) means that if the input is scaled by a constant factor, the output is scaled by the same factor ($a y_1(t)$).",
+      "Combining Superposition and Homogeneity gives the general principle: $a x_1(t) + b x_2(t) \\rightarrow a y_1(t) + b y_2(t)$.",
+      "Time-Invariance is a property of a system where a time shift in the input signal causes an identical time shift in the output signal.",
+      "In a Time-Invariant system, if an input $x(t)$ produces an output $y(t)$, then a delayed input $x(t - \\tau)$ will produce the delayed output $y(t - \\tau)$.",
+      "A Continuous-Time Linear Time-Invariant (CT-LTI) system possesses both Linearity and Time-Invariance properties.",
+      "CT-LTI systems are deterministic and predictable, allowing complex inputs to be decomposed into simpler ones for easier analysis.",
+      "The properties of LTI systems allow us to use powerful mathematical tools like the Laplace Transform and Transfer Functions.",
+      "An Impulse Response $h(t)$ is the output of an LTI system when the input is a Dirac delta function (unit impulse), denoted as $\\delta(t)$.",
+      "The Impulse Response $h(t)$ completely characterizes the behavior of an LTI system.",
+      "If you know a system's impulse response $h(t)$, you can determine its response to ANY arbitrary input $x(t)$ using Convolution.",
+      "Convolution is a mathematical operation that combines two functions ($x(t)$ and $h(t)$) to produce a third function ($y(t)$).",
+      "The continuous-time convolution integral is defined as: $y(t) = \\int_{-\\infty}^{\\infty} x(\\tau)h(t-\\tau)d\\tau$.",
+      "In the convolution integral, $x(\\tau)$ represents the input signal, and $h(t-\\tau)$ represents the impulse response flipped and shifted by $t$.",
+      "The convolution operation is commutative: $x(t) * h(t) = h(t) * x(t)$.",
+      "The Convolution Property states that convolution in the time domain ($x(t) * h(t)$) corresponds to multiplication in the s-domain ($X(s)H(s)$).",
+      "Because $Y(s) = X(s)H(s)$ and the Transfer Function is defined as $G(s) = \\frac{Y(s)}{X(s)}$, it follows that $G(s) = H(s)$.",
+      "The Transfer Function $G(s)$ of an LTI system is simply the Laplace Transform of its impulse response $h(t)$.",
+      "The Sifting Property of the Dirac delta function states that convolving any function with a shifted impulse simply shifts the function: $x(t) * \\delta(t-T) = x(t-T)$."
+    ],
+    "questions": [
+      {
+        "type": "single",
+        "image": "",
+        "question": "What does the acronym \"LTI\" stand for in control systems?",
+        "choices": [
+          "Laplace Time-Integration",
+          "Linear Time-Invariant",
+          "Logical Transfer Interface",
+          "Linear Time-Integration"
+        ],
+        "correctAnswer": "Linear Time-Invariant",
+        "explanation": "LTI stands for Linear Time-Invariant systems."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When converting a Differential Equation (DE) to a Transfer Function (TF), what crucial assumption must be made?",
+        "choices": [
+          "The system is non-linear",
+          "Infinite time limits",
+          "Zero Initial Conditions",
+          "The input is a step function"
+        ],
+        "correctAnswer": "Zero Initial Conditions",
+        "explanation": "Slide 4 states \"Assume Zero Initial Conditions\" when converting DE to TF."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In a Transfer Function $G(s)$, the output derivatives from the DE become the powers of $s$ in the ________.",
+        "choices": [
+          "numerator",
+          "denominator",
+          "limits of integration",
+          "exponent"
+        ],
+        "correctAnswer": "denominator",
+        "explanation": "Slide 4 notes \"Output derivatives $\\rightarrow$ powers of $s$ in denominator\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "How is the Order of the system determined from the Differential Equation?",
+        "choices": [
+          "By the highest derivative of the input",
+          "By the lowest derivative of the output",
+          "By the highest derivative of the output",
+          "By the sum of all derivatives"
+        ],
+        "correctAnswer": "By the highest derivative of the output",
+        "explanation": "Slide 4 states the \"Order of the system = Highest derivative of the output\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the main motivation for using LTI systems instead of general non-linear systems?",
+        "choices": [
+          "Non-linear systems cannot use batteries.",
+          "Designing controllers for general systems is extremely difficult, while LTI systems have powerful tools available.",
+          "LTI systems do not require mathematical modeling.",
+          "LTI systems are physically smaller."
+        ],
+        "correctAnswer": "Designing controllers for general systems is extremely difficult, while LTI systems have powerful tools available.",
+        "explanation": "Slide 6 notes that for general (non-linear) systems, designing controllers can be extremely difficult, but if the system is LTI, powerful tools become available."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following is NOT one of the \"powerful tools\" available for LTI systems mentioned in the slides?",
+        "choices": [
+          "Convolution",
+          "Frequency domain analysis",
+          "Trial-and-error guessing",
+          "Superposition"
+        ],
+        "correctAnswer": "Trial-and-error guessing",
+        "explanation": "Slide 6 lists Convolution, Transfer functions, Frequency domain analysis, and Superposition."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A system is considered \"Linear\" if it satisfies what principle?",
+        "choices": [
+          "Archimedes' Principle",
+          "Superposition Principle",
+          "D'Alembert's Principle",
+          "Uncertainty Principle"
+        ],
+        "correctAnswer": "Superposition Principle",
+        "explanation": "Slide 10 states \"System is linear if it satisfies Superposition Principle\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Superposition Principle requires two conditions. What is the condition where $x_1(t) + x_2(t) \\rightarrow y_1(t) + y_2(t)$?",
+        "choices": [
+          "Homogeneity",
+          "Causality",
+          "Additivity",
+          "Time-Invariance"
+        ],
+        "correctAnswer": "Additivity",
+        "explanation": "Slide 10 defines this specific property as \"Additivity\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Superposition Principle's second condition is \"Homogeneity\". What does this mean?",
+        "choices": [
+          "If $x(t) \\rightarrow y(t)$, then $x(t-t_0) \\rightarrow y(t-t_0)$",
+          "If $x(t) \\rightarrow y(t)$, then $ax(t) \\rightarrow ay(t)$",
+          "The system only accepts step inputs",
+          "The system has constant mass"
+        ],
+        "correctAnswer": "If $x(t) \\rightarrow y(t)$, then $ax(t) \\rightarrow ay(t)$",
+        "explanation": "Slide 10 defines Homogeneity (Scaling) as: If $x(t) \\rightarrow y(t)$, then $ax(t) \\rightarrow ay(t)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Is the system $y(t) = 3x(t)$ Linear or Nonlinear?",
+        "choices": [
+          "Linear",
+          "Nonlinear"
+        ],
+        "correctAnswer": "Linear",
+        "explanation": "Slide 11 proves this system is Linear because $3(a_1x_1 + a_2x_2) = a_1y_1 + a_2y_2$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Is the system $y(t) = x^2(t)$ Linear or Nonlinear?",
+        "choices": [
+          "Linear",
+          "Nonlinear"
+        ],
+        "correctAnswer": "Nonlinear",
+        "explanation": "Slide 11 proves this system is Nonlinear because $(x_1 + x_2)^2 \\neq x_1^2 + x_2^2$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Is the system $y(t) = 3x(t) + 5$ Linear or Nonlinear?",
+        "choices": [
+          "Linear",
+          "Nonlinear"
+        ],
+        "correctAnswer": "Nonlinear",
+        "explanation": "Slide 12 proves this system is Nonlinear because the expected output $(3x_1 + 3x_2 + 10)$ does not equal the actual combined output $(3x_1 + 3x_2 + 5)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A system is \"Time Invariant\" if shifting the input causes the output to ________.",
+        "choices": [
+          "scale by the same amount",
+          "invert completely",
+          "shift by the same amount",
+          "become zero"
+        ],
+        "correctAnswer": "shift by the same amount",
+        "explanation": "Slide 13 states \"System is time invariant if shifting the input causes the output to shift by the same amount.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Mathematically, Time-Invariance means if $x(t) \\rightarrow y(t)$, then for a delayed input $x(t - t_0)$, the output must be:",
+        "choices": [
+          "$y(t)$",
+          "$y(t - t_0)$",
+          "$y(t + t_0)$",
+          "$ay(t)$"
+        ],
+        "correctAnswer": "$y(t - t_0)$",
+        "explanation": "Slide 13 defines it as: the output must be $y(t - t_0)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Is the system $y(t) = tx(t)$ Time-Invariant or Time-Varying?",
+        "choices": [
+          "Time-Invariant",
+          "Time-Varying"
+        ],
+        "correctAnswer": "Time-Varying",
+        "explanation": "Slide 14 proves it is Time-Varying because the shifted input produces $y(t) = t x(t-t_0)$, which is not equal to the expected $(t-t_0)x(t-t_0)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Is the nonlinear system $y(t) = 3x(t) + 5$ Time-Invariant or Time-Varying?",
+        "choices": [
+          "Time-Invariant",
+          "Time-Varying"
+        ],
+        "correctAnswer": "Time-Invariant",
+        "explanation": "Slide 15 proves it is Time-Invariant because shifting the input yields $3x(t-t_0) + 5$, which matches the expected output."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What single function completely characterizes an LTI system?",
+        "choices": [
+          "Step Response $s(t)$",
+          "Impulse Response $h(t)$",
+          "Fourier Transform",
+          "Input Signal $x(t)$"
+        ],
+        "correctAnswer": "Impulse Response $h(t)$",
+        "explanation": "Slide 16 states \"$h(t)$ completely characterizes an LTI system.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Impulse Response $h(t)$ is the system output when the input is a ________.",
+        "choices": [
+          "Unit step function $u(t)$",
+          "Sine wave $\\sin(t)$",
+          "Unit impulse $\\delta(t)$",
+          "Ramp function $t$"
+        ],
+        "correctAnswer": "Unit impulse $\\delta(t)$",
+        "explanation": "Slide 16 states \"Impulse Response is the system output when input is a unit impulse: $x(t) = \\delta(t)$.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What mathematical operation is denoted by the symbol \"$*$\" in the equation $y(t) = x(t) * h(t)$?",
+        "choices": [
+          "Multiplication",
+          "Cross-product",
+          "Convolution",
+          "Complex Conjugate"
+        ],
+        "correctAnswer": "Convolution",
+        "explanation": "Slide 16 notes \"symbol $*$ denotes convolution\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The \"Sifting Property\" expresses any signal as a continuum of shifted impulses using the integral: $\\int x(\\tau)\\delta(t - \\tau) d\\tau$. What does $\\tau$ represent here?",
+        "choices": [
+          "Torque",
+          "The time at which each impulse occurs",
+          "The final time limit",
+          "Temperature"
+        ],
+        "correctAnswer": "The time at which each impulse occurs",
+        "explanation": "Slide 17 notes \"Each impulse occurs at time $\\tau$.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "How do engineers physically obtain the Impulse Response using the \"Experimental/Physical Approach\" since a perfect impulse is impossible to create?",
+        "choices": [
+          "By turning the machine off and on rapidly.",
+          "By using a narrow pulse with an area of 1.",
+          "By applying a constant 100V source.",
+          "By measuring the ambient noise."
+        ],
+        "correctAnswer": "By using a narrow pulse with an area of 1.",
+        "explanation": "Slide 19 states \"Engineers use a narrow pulse with an area of 1.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Using the Transfer Function Method, the impulse response is simply the ________ of the Transfer Function $H(s)$.",
+        "choices": [
+          "Derivative",
+          "Integral",
+          "Laplace Transform",
+          "Inverse Laplace Transform"
+        ],
+        "correctAnswer": "Inverse Laplace Transform",
+        "explanation": "Slide 19 shows $h(t) = \\mathcal{L}^{-1}\\{H(s)\\}$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP TF METHOD: For the system $\\frac{dy(t)}{dt} + 3y(t) = x(t)$, what is the transfer function $H(s)$?",
+        "choices": [
+          "$H(s) = s + 3$",
+          "$H(s) = \\frac{1}{s+3}$",
+          "$H(s) = \\frac{s}{s+3}$",
+          "$H(s) = \\frac{3}{s}$"
+        ],
+        "correctAnswer": "$H(s) = \\frac{1}{s+3}$",
+        "explanation": "From slide 21, taking the Laplace transform gives $sY(s) + 3Y(s) = X(s)$, so $H(s) = \\frac{Y(s)}{X(s)} = \\frac{1}{s+3}$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP TF METHOD: Given $H(s) = \\frac{1}{s+3}$, what is the Impulse Response $h(t)$?",
+        "choices": [
+          "$e^{3t}u(t)$",
+          "$e^{-3t}u(t)$",
+          "$3e^{-t}u(t)$",
+          "$\\sin(3t)u(t)$"
+        ],
+        "correctAnswer": "$e^{-3t}u(t)$",
+        "explanation": "Slide 21 shows $h(t) = e^{-3t}u(t)$ after taking the inverse Laplace transform."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "If the Step Response $s(t)$ is known, how do you find the Impulse Response $h(t)$?",
+        "choices": [
+          "Integrate the step response.",
+          "Multiply the step response by $s$.",
+          "Take the derivative of the step response: $h(t) = \\frac{d}{dt}s(t)$",
+          "Shift the step response by $t_0$."
+        ],
+        "correctAnswer": "Take the derivative of the step response: $h(t) = \\frac{d}{dt}s(t)$",
+        "explanation": "Slide 22 states \"For stable LTI system, $h(t)$ is the derivative of the step response $s(t)$\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Convolution Integral $y(t) = \\int_{-\\infty}^{\\infty} x(\\tau)h(t-\\tau) d\\tau$ physically represents the accumulated effect of ________ on the system output.",
+        "choices": [
+          "future disturbances",
+          "past inputs",
+          "current noise",
+          "internal heat"
+        ],
+        "correctAnswer": "past inputs",
+        "explanation": "Slide 23 states \"Convolution represents the accumulated effect of past inputs on the system output.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP DIRECT INTEGRAL: Given $x(t) = u(t)$ and $h(t) = e^{-t}u(t)$. What is $h(t-\\tau)$ substituted into the integral?",
+        "choices": [
+          "$e^{-\\tau}u(\\tau)$",
+          "$e^{-t}u(t)$",
+          "$e^{-(t-\\tau)}u(t-\\tau)$",
+          "$e^{(t+\\tau)}u(t+\\tau)$"
+        ],
+        "correctAnswer": "$e^{-(t-\\tau)}u(t-\\tau)$",
+        "explanation": "Slide 24 shows the substitution: $h(t-\\tau) = e^{-(t-\\tau)}u(t-\\tau)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP DIRECT INTEGRAL: According to the \"Automatic Zero\" Rule for a causal system with a causal input, what are the limits of integration for the convolution integral?",
+        "choices": [
+          "$-\\infty$ to $\\infty$",
+          "$0$ to $\\infty$",
+          "$-\\infty$ to $t$",
+          "$0$ to $t$"
+        ],
+        "correctAnswer": "$0$ to $t$",
+        "explanation": "Slide 24 states it forces the lower limit to be at least 0 and the upper limit to be at most $t$, so the limits are $0$ to $t$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP DIRECT INTEGRAL: Evaluate the integral $\\int_0^t e^{-(t-\\tau)} d\\tau$.",
+        "choices": [
+          "$e^{-t}(e^t - 1)$",
+          "$e^{-t}(e^{-t} - 1)$",
+          "$1 + e^{-t}$",
+          "$e^{t}$"
+        ],
+        "correctAnswer": "$e^{-t}(e^t - 1)$",
+        "explanation": "Slide 24 shows factoring out $e^{-t}$ to get $e^{-t} \\int_0^t e^{\\tau} d\\tau = e^{-t}[e^{\\tau}]_0^t = e^{-t}(e^t - 1)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP DIRECT INTEGRAL: Simplifying $e^{-t}(e^t - 1)$ yields the final output $y(t) = $ ?",
+        "choices": [
+          "$e^{-t} - 1$",
+          "$1 - e^{-t}$",
+          "$1 - e^t$",
+          "$e^{-2t}$"
+        ],
+        "correctAnswer": "$1 - e^{-t}$",
+        "explanation": "Slide 24 shows $e^{-t}(e^t) - e^{-t}(1) = 1 - e^{-t}$ for $t \\ge 0$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Graphical Method of Convolution, what is Step 1?",
+        "choices": [
+          "Multiply and integrate",
+          "Shift to obtain $h(t-\\tau)$",
+          "Flip $h(\\tau)$ to obtain $h(-\\tau)$",
+          "Take the Laplace transform"
+        ],
+        "correctAnswer": "Flip $h(\\tau)$ to obtain $h(-\\tau)$",
+        "explanation": "Slide 25 lists Step 1 as \"Flip one function: Flip $h(\\tau)$ to obtain $h(-\\tau)$\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Graphical Method of Convolution, what is Step 2?",
+        "choices": [
+          "Flip the other function",
+          "Shift to obtain $h(t-\\tau)$",
+          "Find the derivative",
+          "Multiply with $x(t)$"
+        ],
+        "correctAnswer": "Shift to obtain $h(t-\\tau)$",
+        "explanation": "Slide 25 lists Step 2 as \"Shift it by $t$: Shift to obtain $h(t-\\tau)$\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP SIFTING: You are given $h(t) = e^{-t}u(t)$ and input $x(t) = \\delta(t-3)$. According to the Sifting Property, the output $y(t)$ is simply the impulse response ________.",
+        "choices": [
+          "multiplied by 3",
+          "derived 3 times",
+          "shifted by 3",
+          "integrated from 0 to 3"
+        ],
+        "correctAnswer": "shifted by 3",
+        "explanation": "Slide 26 explains \"output is simply impulse response shifted by 3!\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP SIFTING: Based on the previous question, what is the exact formula for $y(t)$?",
+        "choices": [
+          "$y(t) = 3e^{-t}u(t)$",
+          "$y(t) = e^{-(t-3)}u(t-3)$",
+          "$y(t) = e^{-t}\\delta(t-3)$",
+          "$y(t) = e^{-3t}u(t)$"
+        ],
+        "correctAnswer": "$y(t) = e^{-(t-3)}u(t-3)$",
+        "explanation": "Slide 26 shows substituting $t-3$ into $h(t)$ yields $y(t) = e^{-(t-3)}u(t-3)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When convolving using the Laplace/TF method, convolution in the time domain ($x(t) * h(t)$) becomes ________ in the Laplace domain.",
+        "choices": [
+          "Addition: $X(s) + H(s)$",
+          "Division: $X(s) / H(s)$",
+          "Multiplication: $X(s)H(s)$",
+          "Subtraction: $X(s) - H(s)$"
+        ],
+        "correctAnswer": "Multiplication: $X(s)H(s)$",
+        "explanation": "Slide 27 shows $\\mathcal{L}\\{y(t)\\} = Y(s) = X(s)H(s)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Transfer Function $G(s)$ is essentially the Laplace transform of the ________.",
+        "choices": [
+          "Step response",
+          "Input signal",
+          "Impulse response $h(t)$",
+          "Disturbance"
+        ],
+        "correctAnswer": "Impulse response $h(t)$",
+        "explanation": "Slide 27 concludes \"Thus, the transfer function is the Laplace transform of the impulse response.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP LAPLACE: Given input $x(t) = 3\\delta(t) - 2\\delta(t-4)$. What is $X(s)$?",
+        "choices": [
+          "$3 - 2e^{-4s}$",
+          "$\\frac{3}{s} - \\frac{2}{s-4}$",
+          "$3s - 2s^4$",
+          "$3 - 2s^{-4}$"
+        ],
+        "correctAnswer": "$3 - 2e^{-4s}$",
+        "explanation": "Slide 28 shows Laplace transform of impulses: $X(s) = 3 - 2e^{-4s}$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP LAPLACE: Given impulse response $h(t) = \\sin(t)u(t)$. What is $H(s)$?",
+        "choices": [
+          "$\\frac{s}{s^2+1}$",
+          "$\\frac{1}{s+1}$",
+          "$\\frac{1}{s^2+1}$",
+          "$\\frac{1}{s^2-1}$"
+        ],
+        "correctAnswer": "$\\frac{1}{s^2+1}$",
+        "explanation": "Slide 28 shows Laplace of $\\sin(t)$ is $H(s) = \\frac{1}{s^2+1}$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP LAPLACE: Multiply $X(s)$ and $H(s)$ to find $Y(s)$. What is the resulting equation?",
+        "choices": [
+          "$Y(s) = \\frac{3 - 2e^{-4s}}{s^2+1}$",
+          "$Y(s) = \\frac{3}{s^2+1} - \\frac{2e^{-4s}}{s^2+1}$",
+          "$Y(s) = (3 - 2e^{-4s}) + \\frac{1}{s^2+1}$",
+          "Both $Y(s) = \\frac{3 - 2e^{-4s}}{s^2+1}$ and $Y(s) = \\frac{3}{s^2+1} - \\frac{2e^{-4s}}{s^2+1}$"
+        ],
+        "correctAnswer": "Both $Y(s) = \\frac{3 - 2e^{-4s}}{s^2+1}$ and $Y(s) = \\frac{3}{s^2+1} - \\frac{2e^{-4s}}{s^2+1}$",
+        "explanation": "Slide 28 shows $Y(s) = \\frac{3}{s^2+1} - (\\frac{2e^{-4s}}{s^2+1})$. Both forms are equivalent."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "STEP-BY-STEP LAPLACE: Take the Inverse Laplace of $Y(s)$ to get $y(t)$. What is the final output?",
+        "choices": [
+          "$y(t) = 3\\sin(t)u(t) - 2\\cos(t-4)u(t-4)$",
+          "$y(t) = 3\\cos(t)u(t) - 2\\sin(t-4)u(t-4)$",
+          "$y(t) = 3\\sin(t)u(t) - 2\\sin(t-4)u(t-4)$",
+          "$y(t) = \\sin(3t)u(t) - \\sin(2t-4)u(t-4)$"
+        ],
+        "correctAnswer": "$y(t) = 3\\sin(t)u(t) - 2\\sin(t-4)u(t-4)$",
+        "explanation": "Slide 28 shows the inverse Laplace yields $y(t) = 3\\sin(t)u(t) - 2\\sin(t-4)u(t-4)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "According to the \"Strategy in Solving Convolution Integral\" table, when should you use the Sifting Property?",
+        "choices": [
+          "When signals are smooth functions",
+          "When the input is impulses",
+          "When signals are simple shapes",
+          "When there are initial conditions"
+        ],
+        "correctAnswer": "When the input is impulses",
+        "explanation": "Slide 29 lists the Sifting Property is best when \"Input is impulses\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the main \"Trick/Advantage\" of using the Sifting Property?",
+        "choices": [
+          "Turns calculus into multiplication",
+          "Uses geometry to solve",
+          "No math! Just copy, shift, and scale",
+          "It guarantees stability"
+        ],
+        "correctAnswer": "No math! Just copy, shift, and scale",
+        "explanation": "Slide 29 says the trick is \"No math! Just copy, shift, and scale\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the downside of using the Sifting Property?",
+        "choices": [
+          "It is tedious and error-prone",
+          "Partial fractions can be a nightmare",
+          "It only works for impulse-based signals",
+          "It is easy to make sliding limit mistakes"
+        ],
+        "correctAnswer": "It only works for impulse-based signals",
+        "explanation": "Slide 29 states \"Only works for impulse-based signals\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When should you use the Graphical Method for convolution?",
+        "choices": [
+          "When input is impulses",
+          "When signals are smooth functions",
+          "When signals are simple shapes (rectangles, triangles)",
+          "When the transfer function is given"
+        ],
+        "correctAnswer": "When signals are simple shapes (rectangles, triangles)",
+        "explanation": "Slide 29 lists Graphical Method for when \"Signals are simple shapes (rectangles, triangles).\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the downside of the Graphical Method?",
+        "choices": [
+          "Easy to make mistakes with the sliding limits",
+          "Only works for impulse inputs",
+          "Partial fractions are required",
+          "Cannot handle rectangular waves"
+        ],
+        "correctAnswer": "Easy to make mistakes with the sliding limits",
+        "explanation": "Slide 29 lists the downside as \"Easy to make mistakes with the sliding limits.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When should you use the Laplace Domain method for convolution?",
+        "choices": [
+          "When signals are simple shapes",
+          "When the input is impulses only",
+          "When signals are smooth functions (exp, sin, cos, etc.)",
+          "For purely graphical data"
+        ],
+        "correctAnswer": "When signals are smooth functions (exp, sin, cos, etc.)",
+        "explanation": "Slide 29 recommends Laplace Domain when \"Signals are smooth functions (exp, sin, cos, etc.)\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the main advantage of the Laplace Domain method for convolution?",
+        "choices": [
+          "Uses geometry",
+          "Turns calculus into multiplication",
+          "Needs no math",
+          "Solves non-linear equations"
+        ],
+        "correctAnswer": "Turns calculus into multiplication",
+        "explanation": "Slide 29 states it \"Turns calculus into multiplication\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the potential downside of the Laplace Domain method?",
+        "choices": [
+          "It is brute force",
+          "Easy to mess up sliding limits",
+          "Partial Fractions can be a nightmare to invert",
+          "It doesn't work on smooth functions"
+        ],
+        "correctAnswer": "Partial Fractions can be a nightmare to invert",
+        "explanation": "Slide 29 notes \"Partial Fractions can be a nightmare to invert\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Why is the Direct Integral method usually avoided if possible?",
+        "choices": [
+          "It cannot solve LTI systems",
+          "It is extremely tedious and error-prone (Brute Force)",
+          "It relies on the Sifting property",
+          "It requires graphical drawing"
+        ],
+        "correctAnswer": "It is extremely tedious and error-prone (Brute Force)",
+        "explanation": "Slide 29 lists it as \"Brute Force, use math definition\" and its downside is \"Extremely tedious and error-prone\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the mathematical verification of Linearity, what happens if the actual combined output does not equal the expected output ($y_1 + y_2$)?",
+        "choices": [
+          "The system is still linear but time-varying",
+          "The system is non-linear",
+          "The system has complex roots",
+          "The input is invalid"
+        ],
+        "correctAnswer": "The system is non-linear",
+        "explanation": "As shown in slides 11 & 12, if expected $\\neq$ actual, the system is nonlinear."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "From the DE $\\frac{dy(t)}{dt} + 3y(t) = x(t)$, if the input $x(t)$ is a unit step $u(t)$, what is $X(s)$?",
+        "choices": [
+          "$1$",
+          "$\\frac{1}{s}$",
+          "$s$",
+          "$\\frac{1}{s+3}$"
+        ],
+        "correctAnswer": "$\\frac{1}{s}$",
+        "explanation": "Slide 21 notes \"If $x(t)$ is unit step $u(t)$, $X(s) = 1/s$\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Based on the previous question, if $H(s) = \\frac{1}{s+3}$ and $X(s) = \\frac{1}{s}$, what is the algebraic form of $Y(s)$?",
+        "choices": [
+          "$\\frac{1}{s+3}$",
+          "$\\frac{s}{s+3}$",
+          "$\\frac{1}{s(s+3)}$",
+          "$\\frac{1}{s} + \\frac{1}{s+3}$"
+        ],
+        "correctAnswer": "$\\frac{1}{s(s+3)}$",
+        "explanation": "Slide 21 shows $Y(s) = X(s)H(s) = (\\frac{1}{s})(\\frac{1}{s+3}) = \\frac{1}{s(s+3)}$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "To find $y(t)$ from $Y(s) = \\frac{1}{s(s+3)}$, you apply Partial Fraction Decomposition. What does it decompose into?",
+        "choices": [
+          "$\\frac{1}{3}(\\frac{1}{s} + \\frac{1}{s+3})$",
+          "$\\frac{1}{3}(\\frac{1}{s} - \\frac{1}{s+3})$",
+          "$\\frac{1}{s} - \\frac{3}{s+3}$",
+          "$\\frac{3}{s} - \\frac{1}{s+3}$"
+        ],
+        "correctAnswer": "$\\frac{1}{3}(\\frac{1}{s} - \\frac{1}{s+3})$",
+        "explanation": "Slide 21 shows the decomposition is $\\frac{1}{3}(\\frac{1}{s} - \\frac{1}{s+3})$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "From $Y(s) = \\frac{1}{3}(\\frac{1}{s} - \\frac{1}{s+3})$, what is the inverse Laplace transform $y(t)$ (which is also the step response $s(t)$)?",
+        "choices": [
+          "$\\frac{1}{3}(1 - e^{3t})u(t)$",
+          "$\\frac{1}{3}(1 + e^{-3t})u(t)$",
+          "$\\frac{1}{3}(1 - e^{-3t})u(t)$",
+          "$(1 - e^{-3t})u(t)$"
+        ],
+        "correctAnswer": "$\\frac{1}{3}(1 - e^{-3t})u(t)$",
+        "explanation": "Slide 21 concludes $y(t) = \\frac{1}{3}(1 - e^{-3t})u(t)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "According to the Sifting Property slide, in the Continuous-Time (CT) domain, operations produce a solid line (a continuous function) rather than sampled lines (discrete points) because the operation involves an ________.",
+        "choices": [
+          "algebraic matrix",
+          "integral over a continuous time variable",
+          "summation over discrete indices",
+          "exponential decay"
+        ],
+        "correctAnswer": "integral over a continuous time variable",
+        "explanation": "Slide 18 note states it produces a continuous function \"because the operation involves an integral over a continuous time variable (rather than a summation over discrete indices)\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "LTI systems allow us to predict system behavior without physically building the system. This practice is broadly known as ________.",
+        "choices": [
+          "Fabrication",
+          "Modeling",
+          "Feedback correction",
+          "Hardware prototyping"
+        ],
+        "correctAnswer": "Modeling",
+        "explanation": "Slide 3 states \"Modeling allows to predict system behavior w/o building the system\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "If an LTI system is known to output $y(t)$ for input $x(t)$, and you input $5x(t - 2)$, what will the output be?",
+        "choices": [
+          "$5y(t - 2)$",
+          "$y(t - 2)$",
+          "$5y(t)$",
+          "$y(5t - 2)$"
+        ],
+        "correctAnswer": "$5y(t - 2)$",
+        "explanation": "This combines both Homogeneity (scaling by 5) and Time-Invariance (shifting by 2)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the common modelling principle used for mechanical systems according to the review slide?",
+        "choices": [
+          "Kirchhoff's laws",
+          "Conservation of energy",
+          "Newton's laws",
+          "Ohm's law"
+        ],
+        "correctAnswer": "Newton's laws",
+        "explanation": "Slide 3 lists \"Newton's laws for mechanical systems\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the common modelling principle used for electrical circuits?",
+        "choices": [
+          "Newton's laws",
+          "Kirchhoff's laws",
+          "D'Alembert's principle",
+          "Thermodynamic laws"
+        ],
+        "correctAnswer": "Kirchhoff's laws",
+        "explanation": "Slide 3 lists \"Kirchhoff's laws for electrical circuits\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Transfer Function of an LTI system represents the system with an assumption of zero ________.",
+        "choices": [
+          "damping",
+          "friction",
+          "initial conditions",
+          "external forces"
+        ],
+        "correctAnswer": "initial conditions",
+        "explanation": "Reiteration of Slide 4, TF represent LTI Systems with zero initial conditions."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the block diagram for Motivation, an LTI System block is shown with an input arrow and an output arrow. If you input an impulse $\\delta(t)$ into this block, the output arrow represents the ________.",
+        "choices": [
+          "Transfer function $H(s)$",
+          "Impulse Response $h(t)$",
+          "Step Response $s(t)$",
+          "Disturbance $d(t)$"
+        ],
+        "correctAnswer": "Impulse Response $h(t)$",
+        "explanation": "Based on the graphical concept from slides 8 & 9 and the definition of Impulse Response."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "If you use the Step Response method $h(t) = \\frac{d}{dt}s(t)$ on $s(t) = \\frac{1}{3}(1 - e^{-3t})u(t)$, the derivative of $1$ is $0$, and the derivative of $-e^{-3t}$ involves bringing down a ________.",
+        "choices": [
+          "$3$",
+          "$-3$",
+          "$1/3$",
+          "$-1/3$"
+        ],
+        "correctAnswer": "$-3$",
+        "explanation": "Calculus chain rule: $\\frac{d}{dt}(-e^{-3t}) = -(-3)e^{-3t} = 3e^{-3t}$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Following the derivative in the previous question, the $1/3$ outside the parenthesis and the $3$ from the derivative cancel out, leaving exactly ________ as the impulse response.",
+        "choices": [
+          "$e^{3t}u(t)$",
+          "$-e^{-3t}u(t)$",
+          "$e^{-3t}u(t)$",
+          "$3e^{-3t}u(t)$"
+        ],
+        "correctAnswer": "$e^{-3t}u(t)$",
+        "explanation": "Slide 22 shows $\\frac{1}{3} \\cdot 3e^{-3t} = e^{-3t}u(t)$, matching the TF method result."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When performing Convolution via the Graphical Method, why is it necessary to flip $h(\\tau)$ to $h(-\\tau)$?",
+        "choices": [
+          "Because the integral evaluates backward in time.",
+          "To align with the mathematical definition $h(t - \\tau)$ where the $\\tau$ variable is negative.",
+          "Because all systems are non-causal.",
+          "To cancel out negative frequencies."
+        ],
+        "correctAnswer": "To align with the mathematical definition $h(t - \\tau)$ where the $\\tau$ variable is negative.",
+        "explanation": "Slide 25 steps: Flip $h(\\tau)$ to obtain $h(-\\tau)$ to properly construct the $h(t - \\tau)$ term for the sliding integral."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the final conclusion of the Strategy Table, if you are given two signals like an exponential curve and a sine wave, you should immediately think to convert them to the ________ domain to avoid messy integration.",
+        "choices": [
+          "Time",
+          "Frequency",
+          "Laplace",
+          "Spatial"
+        ],
+        "correctAnswer": "Laplace",
+        "explanation": "Slide 29 indicates for smooth functions (exp, sin, cos), the Laplace Domain method is the recommended trick to turn calculus into multiplication."
+      }
+    ]
+  }
+]
