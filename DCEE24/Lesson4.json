@@ -1,0 +1,698 @@
+[
+  {
+    "topic": "Lecture 4: System Modeling & Transfer Function",
+    "reviewerFacts": [
+      "Building an actual system is not easy because actual systems are very complex (hundreds to millions of components) and very expensive.",
+      "Because building actual systems is expensive, the system must undergo design verification through modelling before evaluating it via simulation.",
+      "Since reality is generally too complex to copy exactly, analytical models like the State-Space Model ($\\dot{x} = Ax + Bu$) capture system dynamics using physical laws.",
+      "In modeling inputs for a suspension system, a 'Smooth Road' can be modeled by a sine wave ($\\sin(2\\pi t)$), while a 'One-Hump Road' is mathematically represented by an impulse function ($\\delta(t)$).",
+      "The very first step in General Steps in Analytical Modeling is identifying the 'Purpose of model'.",
+      "Step 2 is 'Define boundaries', which means the system of interest is separated from the environment by a boundary.",
+      "The critical step in Analytical Modeling is applying relevant Physical Laws to write the equations describing the system.",
+      "In electrical systems, a Resistor provides resistance against electric current and dissipates energy, a Capacitor stores energy in an electric field, and an Inductor stores energy in a magnetic field.",
+      "For an ideal capacitor, the assumed values are Resistance $R = 0$ and Inductance $L = 0$.",
+      "Kirchhoff's Current Law (KCL) states that at a junction in a circuit, the sum of currents flowing into a junction is equal to the sum of currents flowing out.",
+      "Kirchhoff's Voltage Law (KVL) states that around any closed loop in a circuit, the directed sum of potential differences across components is zero.",
+      "Adding Resistors or Inductors in series increases the effective resistance or inductance of the circuit. Adding Capacitors in parallel improves the effective capacitance.",
+      "A Rigid body has mass, volume, and shape that do not change under force, while a Point mass has mass but is dimensionless.",
+      "Rotational motion is angular motion about a fixed point, while Torque ($\\tau$) is the measurement of force that causes an object to rotate.",
+      "Moment of Inertia ($J$) is the resistance of a body to having its speed of rotation about an axis altered by applying Torque.",
+      "In basic mechanical elements, Mass ($M$) stores Kinetic Energy due to translational motion, a Linear Spring ($K$) stores Potential Energy, and a Damper ($B$) generates force acting opposite to motion to resist it.",
+      "Newton's 2nd Law of Motion states that the time rate of change of momentum of a body is equal to the force imposed on it ($F=ma$).",
+      "Newton's 3rd Law states that when two bodies interact, they apply forces to one another that are equal in magnitude but opposite in direction.",
+      "In a mechanical Parallel Connection, force is shared between elements, and the components will have equal displacement and velocity.",
+      "In a mechanical Series Connection, force is equal between elements. Connecting springs in series reduces the effective stiffness (resistance to movement).",
+      "The standard Mass-Spring-Damper (MSD) final differential equation derived from the force balance is $M\\ddot{x} + B\\dot{x} + Kx = F$.",
+      "For MSD systems, the Reference Node (e.g., a wall or ground) is assigned a value of $x = 0$.",
+      "For Free-Nodes (Massless), the massless equilibrium rule $\\sum F = 0$ is used to write the force balance equation.",
+      "In MSD sign convention, forces acting in the direction of displacement are positive, while restoring forces (springs/dampers) pulling back toward equilibrium are negative.",
+      "Eliminating a free-node in a series system will typically increase the order of the final Differential Equation.",
+      "In the electromechanical model of an Armature Controlled DC Motor, $e_b$ stands for Back EMF.",
+      "The torque developed by a DC motor ($\\tau_m$) is proportional to the field current and the armature current ($i_a$).",
+      "A Gear is a rotating machine used to transmit Torque and change the speed and direction of motion.",
+      "For gears, the ratio of the torques $T_1 / T_2$ is equal to the ratio of their radii $r_1 / r_2$ and equal to the ratio of their angular velocities $\\omega_2 / \\omega_1$.",
+      "When a Mass-Spring-Damper system is coupled to a gear, the gear (inertia) acts like an additional mass.",
+      "The Transfer Function $G(s)$ of an LTI system is defined as the Laplace transform of the output divided by the Laplace transform of the input.",
+      "A crucial assumption made when deriving a Transfer Function is the presence of zero initial conditions.",
+      "The roots of the numerator of a Transfer Function represent the input influence and are called the system zeros.",
+      "The roots of the denominator of a Transfer Function determine the system behavior and stability and are called the system poles.",
+      "The Differential Equation (DE) Model is particularly useful for deriving system models from physical laws and modeling nonlinear/time-varying systems.",
+      "A major limitation of the Differential Equation (DE) Model is that it is NOT convenient for stability analysis.",
+      "The Transfer Function Model provides immediate access to important system characteristics like Poles (stability) and Zeros (response shaping).",
+      "A major limitation of the Transfer Function Model is that it strictly assumes the system is Linear Time-Invariant (LTI).",
+      "The Transfer Function model hides intermediate variables because it does not explicitly show internal states, and it is generally less intuitive physically compared to DE models."
+    ],
+    "questions": [
+      {
+        "type": "single",
+        "image": "",
+        "question": "According to the slides, building an actual system is not easy because actual systems are very complex (hundreds to millions of components) and very ________.",
+        "choices": [
+          "fragile",
+          "heavy",
+          "expensive",
+          "slow"
+        ],
+        "correctAnswer": "expensive",
+        "explanation": "Slide 4 notes that actual systems are \"very complex... Also, very expensive.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Because building actual systems is expensive, the system must undergo design verification through ________ before evaluating it via simulation.",
+        "choices": [
+          "trial and error",
+          "modelling",
+          "physical testing",
+          "reverse engineering"
+        ],
+        "correctAnswer": "modelling",
+        "explanation": "Engineering knowledge is used to describe how each part would work through \"modelling,\" and then it is evaluated via simulation."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Since reality is generally too complex to copy exactly, what set of equations captures system dynamics using physical laws (e.g., $\\dot{x} = Ax + Bu$)?",
+        "choices": [
+          "Transfer Function",
+          "State-Space Model",
+          "Fourier Series",
+          "Newton's Law"
+        ],
+        "correctAnswer": "State-Space Model",
+        "explanation": "The State-Space equations ($\\dot{x} = Ax + Bu, y = Cx + Du$) are presented as a mathematical model to represent reality."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the visual examples of inputs to a suspension system, a \"Smooth Road\" is modeled by what type of mathematical signal?",
+        "choices": [
+          "$\\delta(t)$",
+          "$\\sin(2\\pi t)$",
+          "$\\sin(2\\pi 10t)$",
+          "A step function"
+        ],
+        "correctAnswer": "$\\sin(2\\pi t)$",
+        "explanation": "The smooth road input is modeled as a low-frequency sine wave, $\\sin(2\\pi t)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the same example, a \"One-Hump Road\" is mathematically represented by an impulse function denoted as ________.",
+        "choices": [
+          "$\\delta(t)$",
+          "$\\sin(2\\pi t)$",
+          "$u(t)$",
+          "$e^{-t}$"
+        ],
+        "correctAnswer": "$\\delta(t)$",
+        "explanation": "The graph for the One-Hump road shows an impulse signal $\\delta(t)$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the very first step in General Steps in Analytical Modeling?",
+        "choices": [
+          "Apply physical laws",
+          "Postulate a structure",
+          "Purpose of model",
+          "Define boundaries"
+        ],
+        "correctAnswer": "Purpose of model",
+        "explanation": "Step 1 is \"Purpose of model\" (e.g., studying LF vs RF propagation)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Step 2 is \"Define boundaries\". This means the system of interest is separated from the ________ by a boundary.",
+        "choices": [
+          "power source",
+          "internal states",
+          "environment",
+          "structural limits"
+        ],
+        "correctAnswer": "environment",
+        "explanation": "The slide explicitly states: \"system of interest is separated from the environment by a boundary\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which step in Analytical Modeling is labeled as the \"critical step\"?",
+        "choices": [
+          "Select variables of interest",
+          "Mathematical description of each element",
+          "Apply relevant Physical Laws",
+          "Model analysis and validation"
+        ],
+        "correctAnswer": "Apply relevant Physical Laws",
+        "explanation": "Step 6, \"Apply relevant Physical Laws\", is marked as the \"(critical step)\" where you develop equations based on Newton's Laws, Kirchhoff's Laws, etc."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In electrical systems, which component provides resistance against electric current and dissipates energy?",
+        "choices": [
+          "Inductor",
+          "Capacitor",
+          "Resistor",
+          "Amplifier"
+        ],
+        "correctAnswer": "Resistor",
+        "explanation": "A Resistor provides resistance against electric current and dissipates energy."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which electrical component stores energy in an electric field?",
+        "choices": [
+          "Inductor",
+          "Capacitor",
+          "Resistor",
+          "Battery"
+        ],
+        "correctAnswer": "Capacitor",
+        "explanation": "A Capacitor stores energy in an electric field."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which electrical component stores energy in a magnetic field?",
+        "choices": [
+          "Inductor",
+          "Capacitor",
+          "Resistor",
+          "Transistor"
+        ],
+        "correctAnswer": "Inductor",
+        "explanation": "An Inductor stores energy in a magnetic field."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "For an ideal capacitor, what are the assumed values of Resistance ($R$) and Inductance ($L$)?",
+        "choices": [
+          "$R = \\infty, L = \\infty$",
+          "$R = 1, L = 1$",
+          "$R = 0, L = 0$",
+          "$R = C, L = C$"
+        ],
+        "correctAnswer": "$R = 0, L = 0$",
+        "explanation": "Slide 17 states for a Capacitor, the ideal condition is $R = L = 0$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which physical law states that at a junction in a circuit, the sum of currents flowing into a junction is equal to the sum of currents flowing out?",
+        "choices": [
+          "Kirchhoff's Voltage Law (KVL)",
+          "Newton's Third Law",
+          "Ohm's Law",
+          "Kirchhoff's Current Law (KCL)"
+        ],
+        "correctAnswer": "Kirchhoff's Current Law (KCL)",
+        "explanation": "This is the definition of Kirchhoff's Current Law (KCL) provided in the slides."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which physical law states that around any closed loop in a circuit, the directed sum of potential differences across components is zero?",
+        "choices": [
+          "Kirchhoff's Voltage Law (KVL)",
+          "Kirchhoff's Current Law (KCL)",
+          "D'Alembert's Principle",
+          "Faraday's Law"
+        ],
+        "correctAnswer": "Kirchhoff's Voltage Law (KVL)",
+        "explanation": "This is the exact definition given for Kirchhoff's Voltage Law (KVL)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Adding Resistors ($R$) or Inductors ($L$) in ________ increases the effective resistance/inductance of the circuit.",
+        "choices": [
+          "parallel",
+          "reverse",
+          "series",
+          "delta-wye formation"
+        ],
+        "correctAnswer": "series",
+        "explanation": "The slide \"Basic Types: Series and Parallel\" states adding R/L in series increases the effective resistance/inductance."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Conversely, adding Capacitors ($C$) in ________ improves the effective capacitance.",
+        "choices": [
+          "series",
+          "parallel",
+          "reverse",
+          "isolation"
+        ],
+        "correctAnswer": "parallel",
+        "explanation": "Stacking capacitors in parallel improves the effective capacitance ($C_T = C_1 + C_2 + ... + C_n$)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the idealization of a real solid body for mechanics, what do you call a body that has mass, volume, and shape, where the volume and shape don't change under force?",
+        "choices": [
+          "Point mass",
+          "Rigid body",
+          "Free node",
+          "Fluid body"
+        ],
+        "correctAnswer": "Rigid body",
+        "explanation": "This is the definition of a \"rigid body.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What do you call a mechanical idealization that has mass but is dimensionless (its location can be fully defined by the position of a point)?",
+        "choices": [
+          "Point mass",
+          "Rigid body",
+          "Center of gravity",
+          "Singularity"
+        ],
+        "correctAnswer": "Point mass",
+        "explanation": "A \"point mass\" has mass but is dimensionless."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In types of mechanical motion, what is angular motion about a fixed point called?",
+        "choices": [
+          "Translational",
+          "Oscillatory",
+          "Rotational",
+          "Linear"
+        ],
+        "correctAnswer": "Rotational",
+        "explanation": "Rotational motion is defined as angular motion about a fixed point."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the measurement of force that causes an object to rotate about an axis ($\\tau = Fr$)?",
+        "choices": [
+          "Moment of Inertia",
+          "Angular Velocity",
+          "Torque",
+          "Tension"
+        ],
+        "correctAnswer": "Torque",
+        "explanation": "Torque ($\\tau$) is the measurement of force that causes rotation."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the resistance of a body to having its speed of rotation about an axis altered by applying Torque?",
+        "choices": [
+          "Friction",
+          "Damping",
+          "Moment of Inertia",
+          "Rigidity"
+        ],
+        "correctAnswer": "Moment of Inertia",
+        "explanation": "Moment of Inertia ($J$) is the resistance of a body to rotational speed changes."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which basic system element stores Kinetic Energy (KE) due to translational motion?",
+        "choices": [
+          "Mass ($M$)",
+          "Damper ($B$)",
+          "Linear Spring ($K$)",
+          "Inertia ($J$)"
+        ],
+        "correctAnswer": "Mass ($M$)",
+        "explanation": "Mass ($M$) stores Kinetic Energy due to translational motion."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which basic system element stores Potential Energy (PE) due to translational motion?",
+        "choices": [
+          "Damper ($B$)",
+          "Linear Spring ($K$)",
+          "Torsional Spring ($K$)",
+          "Mass ($M$)"
+        ],
+        "correctAnswer": "Linear Spring ($K$)",
+        "explanation": "A Linear Spring ($K$) stores Potential Energy due to translational motion."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which mechanical element generates a force that acts opposite to the direction of motion to resist motion (e.g., friction, dashpot)?",
+        "choices": [
+          "Linear Spring ($K$)",
+          "Mass ($M$)",
+          "Damper ($B$)",
+          "Inertia ($J$)"
+        ],
+        "correctAnswer": "Damper ($B$)",
+        "explanation": "A Damper ($B$) generates force opposite to motion to resist it ($F = B\\dot{x}$)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Newton's 2nd Law of Motion states that the time rate of change of the momentum of a body is equal to the ________ imposed on it ($F=ma$).",
+        "choices": [
+          "torque",
+          "velocity",
+          "energy",
+          "force"
+        ],
+        "correctAnswer": "force",
+        "explanation": "The law states it is equal in magnitude and direction to the force imposed on it."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Newton's 3rd Law states that when two bodies interact, they apply forces to one another that are equal in magnitude but ________.",
+        "choices": [
+          "orthogonal in direction",
+          "doubled in velocity",
+          "opposite in direction",
+          "parallel in space"
+        ],
+        "correctAnswer": "opposite in direction",
+        "explanation": "They apply forces equal in magnitude but opposite in direction."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In a mechanical Parallel Connection, it is assumed that the force is ________ between elements.",
+        "choices": [
+          "equal",
+          "shared",
+          "multiplied",
+          "zero"
+        ],
+        "correctAnswer": "shared",
+        "explanation": "Slide 33 (Parallel Connection) explicitly lists the assumption: \"Force is shared between elements\" ($F = F_1 + F_2$)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In a mechanical Parallel Connection, the components will have equal ________, thus having equal velocity.",
+        "choices": [
+          "mass",
+          "displacement",
+          "force",
+          "friction"
+        ],
+        "correctAnswer": "displacement",
+        "explanation": "Components in parallel have equal displacement ($x_1 = x_2 = x$)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In a mechanical Series Connection, it is assumed that the force is ________ between elements.",
+        "choices": [
+          "equal",
+          "shared",
+          "exponentially increased",
+          "canceled out"
+        ],
+        "correctAnswer": "equal",
+        "explanation": "Slide 34 (Series Connection) lists the assumption: \"Force is equal between elements\" ($F_1 = F_2 = F$)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Connecting springs in series ________ the effective stiffness (resistance to movement), thus overall extension increases.",
+        "choices": [
+          "doubles",
+          "maintains",
+          "reduces",
+          "squares"
+        ],
+        "correctAnswer": "reduces",
+        "explanation": "Connecting springs in series reduces the effective stiffness."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the standard Mass-Spring-Damper (MSD) system, what is the final differential equation derived from the force balance $\\sum F_x = M\\ddot{x}$?",
+        "choices": [
+          "$M\\dot{x} + Bx + K = F$",
+          "$M\\ddot{x} + B\\dot{x} + Kx = F$",
+          "$K\\ddot{x} + B\\dot{x} + Mx = F$",
+          "$M\\ddot{x} - B\\dot{x} - Kx = 0$"
+        ],
+        "correctAnswer": "$M\\ddot{x} + B\\dot{x} + Kx = F$",
+        "explanation": "Slide 40 shows the final equation is $M\\ddot{x} + B\\dot{x} + Kx = F$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When deriving ODEs for MSD Systems, what value is assigned to the \"Reference Node\" (e.g., a wall or ground)?",
+        "choices": [
+          "$x = \\infty$",
+          "$x = F$",
+          "$x = 1$",
+          "$x = 0$"
+        ],
+        "correctAnswer": "$x = 0$",
+        "explanation": "Reference Node (wall/ground) is assigned as $x = 0$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "For \"Free-Nodes (Massless)\", which rule is used to write the force balance equation?",
+        "choices": [
+          "Newton's 2nd Law ($F = ma$)",
+          "Massless equilibrium rule ($\\sum F = 0$)",
+          "Faraday's Law",
+          "Hooke's Law alone"
+        ],
+        "correctAnswer": "Massless equilibrium rule ($\\sum F = 0$)",
+        "explanation": "Free-Nodes use the massless equilibrium rule: $\\sum F = 0$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "According to the MSD sign convention, forces acting in the direction of displacement are positive, while restoring forces (springs/dampers) pulling back toward equilibrium are ________.",
+        "choices": [
+          "also positive",
+          "zero",
+          "negative",
+          "squared"
+        ],
+        "correctAnswer": "negative",
+        "explanation": "Restoring forces pulling back toward equilibrium are negative."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Eliminating a free-node in a series system will typically ________ the order of the final Differential Equation (e.g., from 2nd to 3rd order).",
+        "choices": [
+          "decrease",
+          "maintain",
+          "neutralize",
+          "increase"
+        ],
+        "correctAnswer": "increase",
+        "explanation": "The note on Slide 41 says it will \"typically increase the order of the final DE\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the electromechanical model of an Armature Controlled DC Motor, what does $e_b$ stand for?",
+        "choices": [
+          "External battery",
+          "Back EMF",
+          "Equivalent baseline",
+          "Electric brake"
+        ],
+        "correctAnswer": "Back EMF",
+        "explanation": "Slide 51 labels $e_b$ as \"back EMF\" ($e_b = K_b \\dot{\\theta}_m$)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the same DC Motor model, the torque developed by the motor ($\\tau_m$) is proportional to the field current ($i_f$) and the ________.",
+        "choices": [
+          "armature current ($i_a$)",
+          "load inertia ($J_l$)",
+          "shaft friction ($k$)",
+          "rotational velocity ($\\omega$)"
+        ],
+        "correctAnswer": "armature current ($i_a$)",
+        "explanation": "Slide 53 shows $\\tau_m \\propto i_f i_a \\rightarrow \\tau_m = K_t i_a$."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A rotating machine used to transmit Torque and change the speed and direction of motion is called a ________.",
+        "choices": [
+          "Transformer",
+          "Gear",
+          "Damper",
+          "Torsional Spring"
+        ],
+        "correctAnswer": "Gear",
+        "explanation": "Slide 58 defines a Gear as a \"Rotating machine to transmit Torque\" and \"Changes speed and direction of motion\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "For gears, the ratio of the torques $T_1 / T_2$ is equal to the ratio of their radii $r_1 / r_2$ and equal to the ratio of their ________.",
+        "choices": [
+          "masses ($M_1 / M_2$)",
+          "angular velocities ($\\omega_2 / \\omega_1$)",
+          "inertias ($J_1 / J_2$)",
+          "friction coefficients ($b_1 / b_2$)"
+        ],
+        "correctAnswer": "angular velocities ($\\omega_2 / \\omega_1$)",
+        "explanation": "The gear formula is $\\frac{T_1}{T_2} = \\frac{r_1}{r_2} = \\frac{\\omega_2}{\\omega_1}$. Note that velocity is inversely proportional ($\\omega_2 / \\omega_1$)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When a Mass-Spring-Damper system is coupled to a gear, the gear (inertia) acts like an additional ________.",
+        "choices": [
+          "spring",
+          "damper",
+          "mass",
+          "force"
+        ],
+        "correctAnswer": "mass",
+        "explanation": "Slide 61 notes that \"The gear (inertia) acts like an additional mass\" ($F = (\\frac{J}{r^2} + M)\\ddot{x} + \\dots$)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Transfer Function $G(s)$ of an LTI system is defined as the Laplace transform of the output divided by the Laplace transform of the ________.",
+        "choices": [
+          "internal state",
+          "input",
+          "disturbance",
+          "error"
+        ],
+        "correctAnswer": "input",
+        "explanation": "$G(s) = \\frac{Y(s)}{U(s)}$, which is the Laplace transform of output / Laplace transform of input."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is a crucial assumption made when deriving a Transfer Function $G(s)$?",
+        "choices": [
+          "Infinite boundary conditions",
+          "Zero initial condition",
+          "The system must be highly non-linear",
+          "No damping is present"
+        ],
+        "correctAnswer": "Zero initial condition",
+        "explanation": "Slide 63 explicitly lists \"Assumption: zero initial condition\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The roots of the numerator of a Transfer Function represent the input influence and are called the system ________.",
+        "choices": [
+          "poles",
+          "variables",
+          "zeros",
+          "states"
+        ],
+        "correctAnswer": "zeros",
+        "explanation": "Input influence roots are \"system zeros\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The roots of the denominator of a Transfer Function determine the system behavior (stability/transient response) and are called the system ________.",
+        "choices": [
+          "poles",
+          "zeros",
+          "boundaries",
+          "matrices"
+        ],
+        "correctAnswer": "poles",
+        "explanation": "System dynamics roots from the denominator are called \"system poles\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which model is particularly useful for deriving system models from physical laws, understanding interactions, and modeling nonlinear/time-varying systems?",
+        "choices": [
+          "Transfer Function Model",
+          "Block Diagram Model",
+          "DE (Differential Equation) Model",
+          "Frequency Response Model"
+        ],
+        "correctAnswer": "DE (Differential Equation) Model",
+        "explanation": "Slide 69 lists these as the specific usefulness of the DE Model."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A major limitation of the Differential Equation (DE) Model is that it is NOT convenient for ________.",
+        "choices": [
+          "handling initial conditions",
+          "stability analysis",
+          "modeling physical interactions",
+          "nonlinear systems"
+        ],
+        "correctAnswer": "stability analysis",
+        "explanation": "Slide 69 explicitly states the DE model is \"Not convenient for stability analysis\" because time-domain DEs do not easily reveal poles, zeros, etc."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which model provides immediate access to important system characteristics like Poles (stability) and Zeros (response shaping)?",
+        "choices": [
+          "Time-varying Model",
+          "DE Model",
+          "Transfer Function Model",
+          "State-Space Model"
+        ],
+        "correctAnswer": "Transfer Function Model",
+        "explanation": "Slide 70 lists providing access to poles and zeros as a benefit of the Transfer Function Model."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A major limitation of the Transfer Function Model is that it strictly assumes the system is ________.",
+        "choices": [
+          "non-linear",
+          "LTI (Linear Time-Invariant)",
+          "time-varying",
+          "massless"
+        ],
+        "correctAnswer": "LTI (Linear Time-Invariant)",
+        "explanation": "Slide 70 lists \"Assumes (LTI) systems\" as a limitation because it cannot directly represent nonlinear or time-varying systems."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Another limitation of the Transfer Function is that it hides intermediate variables because it does not explicitly show ________.",
+        "choices": [
+          "internal states",
+          "final outputs",
+          "reference inputs",
+          "the time domain"
+        ],
+        "correctAnswer": "internal states",
+        "explanation": "The TF only relates input to output, \"Does not explicitly show internal states... hiding intermediate variables.\""
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Unlike Differential Equations, Transfer Functions are less intuitive physically because they may not clearly reveal the ________ of each term.",
+        "choices": [
+          "frequency",
+          "physical meaning",
+          "complex conjugate",
+          "algebraic sign"
+        ],
+        "correctAnswer": "physical meaning",
+        "explanation": "Slide 70 states \"Unlike DE, TF may not clearly reveal the physical meaning of each term.\""
+      }
+    ]
+  }
+]
