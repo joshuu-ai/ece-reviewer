@@ -31,6 +31,10 @@
         @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
         .animate-shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 
+        /* NAWALANG ANIMATION NA IBINALIK NATIN PARA LUMITAW ANG REVIEWER TEXTS */
+        @keyframes slideUp { 0% { transform: translateY(20px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        .animate-slide-up { animation: slideUp 0.4s ease-out forwards; }
+
         .option-btn { transition: all 0.2s ease; transform: scale(1); }
         .option-btn:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); border-color: #06b6d4 !important; }
         .option-btn:active:not(:disabled) { transform: scale(0.98); }
@@ -289,22 +293,22 @@
              SCREEN 5: GAME INTERFACE
              ============================== -->
         <div id="screen-game" class="hidden flex flex-col h-full animate-pop flex-grow min-h-0">
-            <div class="flex justify-between items-center bg-slate-950 p-3 sm:p-4 border-b border-slate-800 shrink-0">
-                <div class="flex items-center gap-1 sm:gap-2 text-cyan-400">
-                    <i class="fa-solid fa-bolt text-lg sm:text-xl"></i>
-                    <span class="text-lg sm:text-2xl font-black tracking-widest" id="score-display">0</span>
+            <div class="flex justify-between items-center bg-slate-950 p-2 sm:p-4 border-b border-slate-800 shrink-0 w-full">
+                <div class="flex items-center gap-1 sm:gap-2 text-cyan-400 shrink-0">
+                    <i class="fa-solid fa-bolt text-base sm:text-xl"></i>
+                    <span class="text-base sm:text-2xl font-black tracking-widest" id="score-display">0</span>
                 </div>
-                <div id="lives-display" class="text-emerald-400 text-lg sm:text-xl flex gap-1 items-center justify-center flex-grow"></div>
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <div id="streak-container" class="hidden flex items-center gap-1 bg-blue-500/20 text-blue-400 px-2 py-1 rounded-sm border border-blue-500/30">
-                        <i class="fa-solid fa-fire-flame-curved text-sm"></i>
-                        <span id="streak-display" class="font-bold text-xs tracking-widest uppercase">x2</span>
+                <div id="lives-display" class="text-emerald-400 flex gap-0.5 sm:gap-1 items-center justify-center flex-grow mx-2 min-w-0"></div>
+                <div class="flex items-center gap-1 sm:gap-3 shrink-0">
+                    <div id="streak-container" class="hidden flex items-center gap-1 bg-blue-500/20 text-blue-400 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-sm border border-blue-500/30">
+                        <i class="fa-solid fa-fire-flame-curved text-[10px] sm:text-sm"></i>
+                        <span id="streak-display" class="font-bold text-[10px] sm:text-xs tracking-widest uppercase">x2</span>
                     </div>
-                    <div class="text-slate-500 font-bold tracking-widest text-center px-1 text-xs uppercase">
+                    <div class="text-slate-500 font-bold tracking-widest text-center px-1 text-[10px] sm:text-xs uppercase shrink-0">
                         SEQ <span id="q-current" class="text-cyan-300">1</span>/<span id="q-total">10</span>
                     </div>
-                    <button onclick="quitGame()" class="text-slate-600 hover:text-rose-500 ml-1 p-1">
-                        <i class="fa-solid fa-eject text-lg"></i>
+                    <button onclick="quitGame()" class="text-slate-500 hover:text-rose-500 bg-slate-900 hover:bg-rose-950/40 border border-slate-800 hover:border-rose-500/50 p-1.5 sm:p-2 rounded-lg transition-colors ml-1 shrink-0" title="Abort Sequence">
+                        <i class="fa-solid fa-eject text-sm sm:text-lg"></i>
                     </button>
                 </div>
             </div>
@@ -749,10 +753,18 @@
                     topicData.reviewerFacts.forEach(fact => {
                         const li = document.createElement('li');
                         li.className = "text-slate-300 font-medium text-sm md:text-base flex flex-col gap-3 bg-slate-950 p-4 rounded-xl border border-slate-800/80";
-                        let factText = typeof fact === 'string' ? fact : fact.text;
+                        
+                        // Fix for optional text when image is present
+                        let factText = typeof fact === 'string' ? fact : (fact.text || "");
                         let factImg = typeof fact === 'object' && fact.image ? fact.image : "";
-                        let html = `<div class="flex items-start gap-3 w-full"><i class="fa-solid fa-terminal text-cyan-500 mt-1 shrink-0"></i><span class="flex-grow">${factText}</span></div>`;
-                        if (factImg) html += `<div class="w-full flex justify-center mt-4 p-2 bg-slate-900 rounded-xl"><img src="${factImg}" class="w-full max-h-96 sm:max-h-[450px] object-contain rounded-lg bg-slate-100"></div>`;
+                        let html = '';
+                        
+                        if (factText) {
+                            html += `<div class="flex items-start gap-3 w-full"><i class="fa-solid fa-terminal text-cyan-500 mt-1 shrink-0"></i><span class="flex-grow">${factText}</span></div>`;
+                        }
+                        if (factImg) {
+                            html += `<div class="w-full flex justify-center mt-4 p-2 bg-slate-900 rounded-xl"><img src="${factImg}" class="w-full max-h-96 sm:max-h-[450px] object-contain rounded-lg bg-slate-100"></div>`;
+                        }
                         li.innerHTML = html;
                         list.appendChild(li);
                     });
@@ -1157,13 +1169,13 @@
             if (streak >= 3) {
                 streakContainer.classList.remove('hidden');
                 document.getElementById('streak-display').innerText = `SEQ x${mult}`;
-                streakContainer.className = `flex items-center gap-1 px-3 py-1 rounded-sm border ${mult === 4 ? 'bg-rose-500/20 text-rose-400 border-rose-500/50' : mult === 3 ? 'bg-amber-500/20 text-amber-400 border-amber-500/50' : 'bg-blue-500/20 text-blue-400 border-blue-500/50'}`;
+                streakContainer.className = `flex items-center gap-1 px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-sm border ${mult === 4 ? 'bg-rose-500/20 text-rose-400 border-rose-500/50' : mult === 3 ? 'bg-amber-500/20 text-amber-400 border-amber-500/50' : 'bg-blue-500/20 text-blue-400 border-blue-500/50'}`;
             } else streakContainer.classList.add('hidden');
 
             const livesDisplay = document.getElementById('lives-display');
             if (gameStyle === 'survival') {
                 livesDisplay.style.display = 'flex'; livesDisplay.innerHTML = '';
-                for (let i = 0; i < MAX_LIVES; i++) livesDisplay.innerHTML += `<i class="fa-solid fa-battery-${i < lives ? 'full text-emerald-400' : 'empty text-slate-700'}"></i>`;
+                for (let i = 0; i < MAX_LIVES; i++) livesDisplay.innerHTML += `<i class="fa-solid fa-battery-${i < lives ? 'full text-emerald-400' : 'empty text-slate-700'} text-[10px] sm:text-base"></i>`;
             } else livesDisplay.style.display = 'none';
         }
 
