@@ -1,0 +1,698 @@
+[
+  {
+    "topic": "Lecture 2: Control System Terminologies",
+    "reviewerFacts": [
+      "Classical Control Theory relies on analysis in the frequency domain by transforming time functions (e.g., Laplace/Fourier/Z Transform).",
+      "Classical Control Theory involves simple math and simple implementation, but can only be used with linear systems.",
+      "In Classical Control Theory, the PID controller is the most common controller designed, while Lead-Lag controllers are less common.",
+      "Modern Control Theory uses analysis in the time domain via state-space representation.",
+      "Modern Control Theory is used to analyze real-world non-linear systems and is generally more difficult to solve, often requiring a computer for analysis.",
+      "A System is a combination or interconnection of physical components acting together as a single unit to achieve a specific objective, often by transforming an input signal into a desired output response.",
+      "Systems with dynamics have current outputs that depend on past inputs and their internal state.",
+      "A control system can be thought of as a 'system of systems'.",
+      "A Block Diagram is a pictorial representation of a system's components, showing their functions, interconnections, and signal flow using blocks, summing points, and arrows.",
+      "The Plant (Process) is the physical system or process to be controlled.",
+      "The Controller is the 'brain' of the control system; it receives input, processes data, and generates a command known as the actuating signal.",
+      "The Actuator acts as an interface to carry out the Controller's 'orders' and outputs the Manipulated Variable.",
+      "The Manipulated Variable is the physical change imposed by the actuator on the plant to alter its behavior.",
+      "The Input (Reference / Setpoint) is the desired value or the goal the user sets for the system.",
+      "The Output (Controlled Variable / Process Variable) is the actual result or state of the system at any given time.",
+      "The Sensor detects, measures, and monitors the output (process variable) of the plant.",
+      "The Sensor converts physical quantities (e.g., temperature, pressure, speed) into electrical signals, providing feedback to the controller in a closed-loop system.",
+      "The Error Detector compares the reference input with the feedback signal (actual value) to compute the difference, known as the 'error signal'.",
+      "The Error Detector can either be a physical device or an operation performed in software.",
+      "System Requirements are divided into Performance Metrics (Precision, Accuracy, Stability, Speed) and Operational Constraints (Cost, Complexity, Safety, Component Availability).",
+      "In Open-Loop Control, the control action is independent of the output, and the controller operates based on a predetermined input.",
+      "Pros of Open-Loop Control: Simple, inexpensive, and stable.",
+      "Cons of Open-Loop Control: Inaccurate and cannot compensate for unexpected disturbances.",
+      "Disturbance is an undesirable, often unpredictable, typically low-frequency external signal acting on the plant/process, causing deviations (e.g., changes in ambient temp, fluctuation in raw material flow).",
+      "Closed-Loop Control uses feedback to measure the deviation between the desired and actual output, allowing the controller to actively counter-act the disturbance.",
+      "Pros of Closed-Loop Control: Highly accurate and can reject disturbances.",
+      "Cons of Closed-Loop Control: More complex and potentially unstable.",
+      "Noise consists of high-frequency, random, or unwanted signals usually entering via sensors, corrupting measurements without altering system dynamics (e.g., EMI, mechanical vibration).",
+      "Open-Loop is sufficient if the relationship between input and output is direct and unchanging, and if there are no environmental changes or disturbances.",
+      "Open-Loop control is preferred in ideal conditions because it is simpler to design and operates more quickly without the need to process feedback signals.",
+      "A significant flaw of open-loop control is that changes in system parameters over time (like components wearing out or voltage fluctuations) will produce errors.",
+      "In a Toilet Flush System, the Plant is the Water Tank, the Input is the Preset Water Level, the Controller is the Float + Handle, and the Disturbance is the Water Outflow.",
+      "In an Automobile Driving System, the Plant is the Vehicle, the Input is the Road Track/Speed Limit, the Controller is the Driver's Brain, the Actuators are the Hands/Feet, and the Sensors are the Eyes.",
+      "In a Hydraulic Power Steering system, the Plant is the Piston + Load, the Input is the Steering Position, and the Output is the Wheel Position.",
+      "A basic Residential Geothermal Heating System is an Open-Loop system. Adding a Thermostat Sensor & Switch automates it and changes the strategy to a Closed-Loop system.",
+      "In an Automatic Residential Heating System, the Actuator is the Solenoid Valve and the Plant is the Radiator.",
+      "In a Servo System for an Antenna, the Output is the Desired Angle, the Actuator is a Servo Motor, and the Sensor is a Tachogenerator/Angle Encoder.",
+      "In a Speed Control System, the Plant is the DC Motor, and the Actuator is the SCR Triggering Circuit & SCR.",
+      "In a Cruise Control System, the Output is the Actual Speed, the Actuator is the Throttle Actuator, the Sensor is the Speedometer, and a 'road incline' acts as a Disturbance."
+    ],
+    "questions": [
+      {
+        "type": "single",
+        "image": "",
+        "question": "In Classical Control Theory, analysis is done in the ________ domain by transforming time functions.",
+        "choices": [
+          "Time",
+          "Frequency",
+          "Spatial",
+          "Discrete"
+        ],
+        "correctAnswer": "Frequency",
+        "explanation": "Classical control theory uses analysis in the frequency domain by transforming time functions (e.g., Laplace/Fourier/Z Transform)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following is a characteristic of Classical Control Theory?",
+        "choices": [
+          "It is used to analyze real-world non-linear systems.",
+          "It uses analysis in the time domain via state-space representation.",
+          "It can only be used with linear systems.",
+          "It is more difficult to solve and often requires a computer."
+        ],
+        "correctAnswer": "It can only be used with linear systems.",
+        "explanation": "Based on the review slide, Classical Control Theory \"can only be used with linear systems\" and involves simple math/implementation."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In Classical Control Theory, what is the most common controller designed?",
+        "choices": [
+          "Lead-Lag controller",
+          "State-space controller",
+          "PID controller",
+          "Microcontroller"
+        ],
+        "correctAnswer": "PID controller",
+        "explanation": "The slide states that the PID controller is the most common controller designed via classical methods, while Lead-Lag are less common."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Modern Control Theory uses analysis in the ________ domain.",
+        "choices": [
+          "Frequency",
+          "Laplace",
+          "Time",
+          "Fourier"
+        ],
+        "correctAnswer": "Time",
+        "explanation": "Modern control theory uses analysis in the time domain via state-space representation."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Modern Control Theory is primarily used to analyze real-world ________ systems.",
+        "choices": [
+          "non-linear",
+          "linear",
+          "open-loop",
+          "simple"
+        ],
+        "correctAnswer": "non-linear",
+        "explanation": "The review slide explicitly states Modern Control Theory is used to analyze real-world non-linear systems."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is a combination or interconnection of physical components acting together as a single unit to achieve a specific objective?",
+        "choices": [
+          "Actuator",
+          "Plant",
+          "System",
+          "Sensor"
+        ],
+        "correctAnswer": "System",
+        "explanation": "This is the exact definition of a \"System\" provided in the slides."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A system often achieves its objective by transforming an input signal into a ________.",
+        "choices": [
+          "physical disturbance",
+          "desired output response",
+          "mathematical model",
+          "digital pulse"
+        ],
+        "correctAnswer": "desired output response",
+        "explanation": "The definition of a system states it transforms an input signal into a desired output response."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The course focuses on systems with dynamics, meaning its current output depends on past inputs and its ________.",
+        "choices": [
+          "future inputs",
+          "internal state",
+          "external noise",
+          "physical location"
+        ],
+        "correctAnswer": "internal state",
+        "explanation": "A system with dynamics has a current output that depends on past inputs and its internal state."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A Control System is best described as a \"system of ________\".",
+        "choices": [
+          "mathematical models",
+          "computers",
+          "systems",
+          "equations"
+        ],
+        "correctAnswer": "systems",
+        "explanation": "The slide summarizing what a system is concludes that a control system is a \"system of systems\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is the pictorial representation of a system's components, showing their functions, interconnections, and signal flow?",
+        "choices": [
+          "Mathematical Model",
+          "Nichols Chart",
+          "State-Space Representation",
+          "Block Diagram"
+        ],
+        "correctAnswer": "Block Diagram",
+        "explanation": "A Block Diagram uses blocks, summing points, and arrows to pictorially represent a system's components and signal flow."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the anatomy of a control system, what is the physical system (process) to be controlled?",
+        "choices": [
+          "Controller",
+          "Actuator",
+          "Plant (Process)",
+          "Sensor"
+        ],
+        "correctAnswer": "Plant (Process)",
+        "explanation": "The Plant (or Process) is defined as the physical system to be controlled."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which component acts as the \"brain\" of the control system?",
+        "choices": [
+          "Actuator",
+          "Controller",
+          "Sensor",
+          "Error Detector"
+        ],
+        "correctAnswer": "Controller",
+        "explanation": "The Controller is explicitly labeled as the \"brain\" of the control system."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Controller receives input, processes data, and generates a command called the ________ signal.",
+        "choices": [
+          "feedback",
+          "error",
+          "actuating",
+          "disturbance"
+        ],
+        "correctAnswer": "actuating",
+        "explanation": "The controller generates a command known as the actuating signal."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which component acts as the interface to carry out the Controller's \"orders\"?",
+        "choices": [
+          "Actuator",
+          "Plant",
+          "Sensor",
+          "Setpoint"
+        ],
+        "correctAnswer": "Actuator",
+        "explanation": "The Actuator acts as the interface to carry out the Controller's orders."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Actuator outputs the ________, which is the physical change it imposes on the plant to change its behavior.",
+        "choices": [
+          "Reference Setpoint",
+          "Manipulated Variable",
+          "Controlled Variable",
+          "Feedback Signal"
+        ],
+        "correctAnswer": "Manipulated Variable",
+        "explanation": "The Actuator outputs the Manipulated Variable."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What represents the desired value or the goal the user set for the system?",
+        "choices": [
+          "Manipulated Variable",
+          "Output",
+          "Actuating Signal",
+          "Input / Reference Setpoint"
+        ],
+        "correctAnswer": "Input / Reference Setpoint",
+        "explanation": "The Input, also called the Reference or Setpoint, is the desired value or user goal."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What represents the actual result or state of the system at any given time?",
+        "choices": [
+          "Input",
+          "Actuating Signal",
+          "Output / Controlled Variable / Process Variable",
+          "Error Signal"
+        ],
+        "correctAnswer": "Output / Controlled Variable / Process Variable",
+        "explanation": "The Output (Controlled Variable/Process Variable) is the actual result or state of the system at any given time."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which component detects, measures, and monitors the output (process variable) of the plant?",
+        "choices": [
+          "Controller",
+          "Actuator",
+          "Sensor",
+          "Error Detector"
+        ],
+        "correctAnswer": "Sensor",
+        "explanation": "The Sensor detects, measures, and monitors the output of the plant."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A sensor converts physical quantities (like temperature, pressure, speed) into ________ signals.",
+        "choices": [
+          "mechanical",
+          "electrical",
+          "pneumatic",
+          "hydraulic"
+        ],
+        "correctAnswer": "electrical",
+        "explanation": "Sensors convert physical quantities into electrical signals, providing feedback."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What compares the reference input with the feedback signal to compute the difference?",
+        "choices": [
+          "Actuator",
+          "Plant",
+          "Error Detector",
+          "Controller"
+        ],
+        "correctAnswer": "Error Detector",
+        "explanation": "The Error Detector compares the reference input with the feedback signal."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The difference computed by the Error Detector (Input - feedback signal) is called the ________.",
+        "choices": [
+          "Actuating signal",
+          "Error signal",
+          "Noise",
+          "Disturbance"
+        ],
+        "correctAnswer": "Error signal",
+        "explanation": "The formula shown in the slides is Input - feedback signal = error signal."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "According to the slides, an Error Detector can be either a physical device or performed in ________.",
+        "choices": [
+          "a vacuum",
+          "hardware only",
+          "software",
+          "isolation"
+        ],
+        "correctAnswer": "software",
+        "explanation": "The slide mentions the error detector is \"either a physical device or performed in software\"."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Under System Requirements, which of the following is considered an Operational Constraint?",
+        "choices": [
+          "Precision and Accuracy",
+          "Stability",
+          "Speed",
+          "Cost"
+        ],
+        "correctAnswer": "Cost",
+        "explanation": "Cost, Complexity, Safety, and Component Availability are listed under Operational Constraints, while the others are Performance Metrics."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In which type of control is the control action independent of the output?",
+        "choices": [
+          "Closed-Loop Control",
+          "Open-Loop Control",
+          "Feedback Control",
+          "Servo Control"
+        ],
+        "correctAnswer": "Open-Loop Control",
+        "explanation": "In Open-Loop Control, the control action is independent of the output."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In Open-Loop Control, the controller operates based on a ________ input.",
+        "choices": [
+          "feedback",
+          "predetermined",
+          "random",
+          "measured"
+        ],
+        "correctAnswer": "predetermined",
+        "explanation": "The controller in an open-loop system operates based on a predetermined input."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which of the following is a \"Pro\" (advantage) of Open-Loop Control?",
+        "choices": [
+          "It is highly accurate.",
+          "It can reject disturbances.",
+          "It is simple, inexpensive, and stable.",
+          "It actively counters noise."
+        ],
+        "correctAnswer": "It is simple, inexpensive, and stable.",
+        "explanation": "The pros of open-loop control are that it is simple, inexpensive, and stable."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is an undesirable, unpredictable typically low-frequency external signal acting on the plant/process, causing deviations?",
+        "choices": [
+          "Setpoint",
+          "Feedback",
+          "Disturbance",
+          "Actuation"
+        ],
+        "correctAnswer": "Disturbance",
+        "explanation": "Disturbance is an undesirable, unpredictable, external signal acting on the plant."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A change in ambient temperature in a room or a fluctuation in raw material flow is an example of a ________.",
+        "choices": [
+          "Control signal",
+          "Disturbance",
+          "Sensor reading",
+          "Setpoint"
+        ],
+        "correctAnswer": "Disturbance",
+        "explanation": "These are explicitly given as examples of disturbances."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Which system uses feedback to measure the deviation between the desired and actual output?",
+        "choices": [
+          "Open-Loop Control",
+          "Feedforward Control",
+          "Closed-Loop Control",
+          "Predetermined Control"
+        ],
+        "correctAnswer": "Closed-Loop Control",
+        "explanation": "Closed-Loop Control uses feedback to measure this deviation and actively counteract disturbances."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What is a major \"Con\" (disadvantage) of Closed-Loop Control?",
+        "choices": [
+          "It is inaccurate.",
+          "It cannot compensate for unexpected disturbances.",
+          "It is more complex and potentially unstable.",
+          "It relies purely on predetermined inputs."
+        ],
+        "correctAnswer": "It is more complex and potentially unstable.",
+        "explanation": "The slides list \"More complex and potentially unstable\" as the cons of Closed-Loop Control."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "High-frequency, random, or unwanted signals usually entering via sensors that corrupt measurements are called ________.",
+        "choices": [
+          "Disturbances",
+          "Error Signals",
+          "Manipulated Variables",
+          "Noise"
+        ],
+        "correctAnswer": "Noise",
+        "explanation": "Noise consists of high-frequency, random signals usually entering via sensors."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Unlike disturbances, Noise corrupts measurements without altering system ________.",
+        "choices": [
+          "setpoints",
+          "dynamics",
+          "power",
+          "cost"
+        ],
+        "correctAnswer": "dynamics",
+        "explanation": "The definition of Noise states it corrupts measurements without altering system dynamics."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "When is Open-Loop sufficient?",
+        "choices": [
+          "When environmental changes are constant.",
+          "When the system requires high precision and high stability.",
+          "If the relationship between the input and output is direct and does not change.",
+          "When safety requirements are very strict."
+        ],
+        "correctAnswer": "If the relationship between the input and output is direct and does not change.",
+        "explanation": "Open-Loop is sufficient if the relationship between input and output is direct and does not change."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Toasters, electric fans, and washing machines operating on fixed, pre-set cycles are examples of ________ applications.",
+        "choices": [
+          "Closed-loop",
+          "Open-loop",
+          "MIMO",
+          "High-complexity"
+        ],
+        "correctAnswer": "Open-loop",
+        "explanation": "These are given as examples of simple applications where Open-Loop is sufficient."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "Why can Open-Loop systems operate more quickly?",
+        "choices": [
+          "Because they have more complex algorithms.",
+          "Without the need to process feedback signals, it can operate more quickly.",
+          "Because they use a tachogenerator.",
+          "Because they actively reject noise."
+        ],
+        "correctAnswer": "Without the need to process feedback signals, it can operate more quickly.",
+        "explanation": "The slide states Open-Loop is preferred in ideal conditions because, without the need to process feedback signals, it can operate more quickly."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "A disadvantage of Open-Loop control is that it requires a perfect ________ of the system even if no noise or disturbance is present.",
+        "choices": [
+          "Mathematical Model",
+          "Block Diagram",
+          "Actuator",
+          "Microcontroller"
+        ],
+        "correctAnswer": "Mathematical Model",
+        "explanation": "Open-loop control requires a perfect Mathematical Model of the system."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In an open-loop system, what happens if system parameters change over time (e.g., components wear out, voltage fluctuates)?",
+        "choices": [
+          "The system automatically adjusts.",
+          "It will produce errors.",
+          "The feedback loop corrects it.",
+          "The system switches to closed-loop."
+        ],
+        "correctAnswer": "It will produce errors.",
+        "explanation": "Change in system parameters over time will produce errors in an open-loop system."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Toilet Flush System example, what acts as the Plant?",
+        "choices": [
+          "Float + Handle",
+          "Preset Water Level",
+          "Water Tank",
+          "Source + Valve"
+        ],
+        "correctAnswer": "Water Tank",
+        "explanation": "The Water Tank is identified as the Plant in the Toilet Flush System diagram."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Toilet Flush System, what is the Disturbance?",
+        "choices": [
+          "Preset Water Level",
+          "Water Inflow",
+          "Float + Handle",
+          "Water Outflow"
+        ],
+        "correctAnswer": "Water Outflow",
+        "explanation": "Water Outflow acts as the disturbance in the Toilet Flush System."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Automobile Driving System, what component serves as the Controller?",
+        "choices": [
+          "Hands and Feet",
+          "Vehicle",
+          "Driver's Brain",
+          "Steering Wheel"
+        ],
+        "correctAnswer": "Driver's Brain",
+        "explanation": "The Driver's Brain serves as the controller in this Man-Machine Control System."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Automobile Driving System, what acts as the Actuator?",
+        "choices": [
+          "Driver's Brain",
+          "Hands, Feet",
+          "Eyes",
+          "Road Track"
+        ],
+        "correctAnswer": "Hands, Feet",
+        "explanation": "The Hands and Feet act as the actuators (controlling the steering, accelerator, & brake)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Hydraulic Power Steering system, what is the Output?",
+        "choices": [
+          "Steering Position",
+          "Wheel Position",
+          "Piston + Load",
+          "Hydraulic Pump"
+        ],
+        "correctAnswer": "Wheel Position",
+        "explanation": "The Wheel Position is the Output in the Hydraulic Power Steering system."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "The Residential Geothermal Heating System (without automation) is an example of what kind of loop?",
+        "choices": [
+          "Closed-Loop",
+          "Open-Loop",
+          "Tracking Loop",
+          "MIMO"
+        ],
+        "correctAnswer": "Open-Loop",
+        "explanation": "The initial Residential Geothermal Heating System is labeled as Open-Loop (until a thermostat is added)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "To automate the Residential Heating System and change its control strategy to a Closed Loop, what component is added?",
+        "choices": [
+          "Heat Pump",
+          "Radiator",
+          "Thermostat Sensor & Switch",
+          "A larger water tank"
+        ],
+        "correctAnswer": "Thermostat Sensor & Switch",
+        "explanation": "Adding a Thermostat Sensor changes the strategy from Open-Loop to Closed-Loop Automatic Residential Heating."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Automatic Residential Heating System, what acts as the Actuator?",
+        "choices": [
+          "Radiator",
+          "Thermostat Switch",
+          "Solenoid Valve",
+          "Preset temp"
+        ],
+        "correctAnswer": "Solenoid Valve",
+        "explanation": "The Solenoid Valve acts as the actuator in the Automatic Residential Heating System."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Servo System for Antenna, what component measures the output for feedback?",
+        "choices": [
+          "Tachogenerator / Angle Encoder",
+          "Lead Screw",
+          "Servo Motor",
+          "Microcontroller"
+        ],
+        "correctAnswer": "Tachogenerator / Angle Encoder",
+        "explanation": "The Angle Encoder and Tachogenerator act as the sensors/feedback elements in the antenna system."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "What type of Controller is used in the Servo System for Antenna?",
+        "choices": [
+          "Float + Handle",
+          "Microcontroller",
+          "Driver's Brain",
+          "Solenoid Switch"
+        ],
+        "correctAnswer": "Microcontroller",
+        "explanation": "The block diagram shows an MCU (Microcontroller) as the controller."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Speed Control System example, what acts as the Actuator?",
+        "choices": [
+          "Computer",
+          "Tachogenerator",
+          "SCR Triggering Circuit & SCR",
+          "DC Motor"
+        ],
+        "correctAnswer": "SCR Triggering Circuit & SCR",
+        "explanation": "The SCR Triggering Circuit and SCR act as the actuator controlling the DC Motor (the plant)."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Cruise Control System, what acts as the Sensor?",
+        "choices": [
+          "Computer Box",
+          "Throttle Actuator",
+          "Speedometer",
+          "Engine"
+        ],
+        "correctAnswer": "Speedometer",
+        "explanation": "The Speedometer measures the actual speed, acting as the sensor in the Cruise Control System."
+      },
+      {
+        "type": "single",
+        "image": "",
+        "question": "In the Cruise Control System, a \"road incline\" acts as a ________.",
+        "choices": [
+          "Setpoint",
+          "Manipulated Variable",
+          "Disturbance",
+          "Control Signal"
+        ],
+        "correctAnswer": "Disturbance",
+        "explanation": "The block diagram for the Cruise Control System shows \"road incline\" entering the plant as a disturbance."
+      }
+    ]
+  }
+]
